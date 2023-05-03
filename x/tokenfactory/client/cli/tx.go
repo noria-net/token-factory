@@ -12,8 +12,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 )
 
 // GetTxCmd returns the transaction commands for this module
@@ -52,14 +52,12 @@ func NewCreateDenomCmd() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
-
 			msg := types.NewMsgCreateDenom(
 				clientCtx.GetFromAddress().String(),
 				args[0],
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 
@@ -79,8 +77,6 @@ func NewMintCmd() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
-
 			amount, err := sdk.ParseCoinNormalized(args[0])
 			if err != nil {
 				return err
@@ -91,7 +87,7 @@ func NewMintCmd() *cobra.Command {
 				amount,
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 
@@ -111,8 +107,6 @@ func NewMintToCmd() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
-
 			toAddr, err := sdk.AccAddressFromBech32(args[0])
 			if err != nil {
 				return err
@@ -129,7 +123,7 @@ func NewMintToCmd() *cobra.Command {
 				toAddr.String(),
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 
@@ -149,8 +143,6 @@ func NewBurnCmd() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
-
 			amount, err := sdk.ParseCoinNormalized(args[0])
 			if err != nil {
 				return err
@@ -161,7 +153,7 @@ func NewBurnCmd() *cobra.Command {
 				amount,
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 
@@ -181,8 +173,6 @@ func NewBurnFromCmd() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
-
 			fromAddr, err := sdk.AccAddressFromBech32(args[0])
 			if err != nil {
 				return err
@@ -199,7 +189,7 @@ func NewBurnFromCmd() *cobra.Command {
 				fromAddr.String(),
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 
@@ -219,8 +209,6 @@ func NewForceTransferCmd() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
-
 			amount, err := sdk.ParseCoinNormalized(args[0])
 			if err != nil {
 				return err
@@ -233,7 +221,7 @@ func NewForceTransferCmd() *cobra.Command {
 				args[2],
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 
@@ -253,15 +241,13 @@ func NewChangeAdminCmd() *cobra.Command {
 				return err
 			}
 
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
-
 			msg := types.NewMsgChangeAdmin(
 				clientCtx.GetFromAddress().String(),
 				args[0],
 				args[1],
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 
@@ -280,8 +266,6 @@ func NewModifyDenomMetadataCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-
-			txf := tx.NewFactoryCLI(clientCtx, cmd.Flags()).WithTxConfig(clientCtx.TxConfig).WithAccountRetriever(clientCtx.AccountRetriever)
 
 			fullDenom, ticker, desc := args[0], strings.ToUpper(args[1]), args[2]
 
@@ -324,7 +308,7 @@ func NewModifyDenomMetadataCmd() *cobra.Command {
 				bankMetadata,
 			)
 
-			return tx.GenerateOrBroadcastTxWithFactory(clientCtx, txf, msg)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 

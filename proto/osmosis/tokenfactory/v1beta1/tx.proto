@@ -5,20 +5,20 @@ import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
 import "cosmos/bank/v1beta1/bank.proto";
 
-option go_package = "github.com/CosmWasm/token-factory/x/tokenfactory/types";
+option go_package = "github.com/noria-net/token-factory/x/tokenfactory/types";
 
 // Msg defines the tokefactory module's gRPC message service.
 service Msg {
-  rpc CreateDenom(MsgCreateDenom) returns (MsgCreateDenomResponse);
-  rpc Mint(MsgMint) returns (MsgMintResponse);
-  rpc Burn(MsgBurn) returns (MsgBurnResponse);
-  rpc ChangeAdmin(MsgChangeAdmin) returns (MsgChangeAdminResponse);
-  rpc SetDenomMetadata(MsgSetDenomMetadata)
-      returns (MsgSetDenomMetadataResponse);
-  rpc ForceTransfer(MsgForceTransfer) returns (MsgForceTransferResponse);
+  rpc CreateDenom(MsgTokenFactoryCreateDenom) returns (MsgTokenFactoryCreateDenomResponse);
+  rpc Mint(MsgTokenFactoryMint) returns (MsgTokenFactoryMintResponse);
+  rpc Burn(MsgTokenFactoryBurn) returns (MsgTokenFactoryBurnResponse);
+  rpc ChangeAdmin(MsgTokenFactoryChangeAdmin) returns (MsgTokenFactoryChangeAdminResponse);
+  rpc SetDenomMetadata(MsgTokenFactorySetDenomMetadata)
+      returns (MsgTokenFactorySetDenomMetadataResponse);
+  rpc ForceTransfer(MsgTokenFactoryForceTransfer) returns (MsgTokenFactoryForceTransferResponse);
 }
 
-// MsgCreateDenom defines the message structure for the CreateDenom gRPC service
+// MsgTokenFactoryCreateDenom defines the message structure for the CreateDenom gRPC service
 // method. It allows an account to create a new denom. It requires a sender
 // address and a sub denomination. The (sender_address, sub_denomination) tuple
 // must be unique and cannot be re-used.
@@ -27,22 +27,22 @@ service Msg {
 // <factory/{creatorAddress}/{subdenom}>. The resulting denom's admin is
 // originally set to be the creator, but this can be changed later. The token
 // denom does not indicate the current admin.
-message MsgCreateDenom {
+message MsgTokenFactoryCreateDenom {
   string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
   // subdenom can be up to 44 "alphanumeric" characters long.
   string subdenom = 2 [ (gogoproto.moretags) = "yaml:\"subdenom\"" ];
 }
 
-// MsgCreateDenomResponse is the return value of MsgCreateDenom
+// MsgTokenFactoryCreateDenomResponse is the return value of MsgTokenFactoryCreateDenom
 // It returns the full string of the newly created denom
-message MsgCreateDenomResponse {
+message MsgTokenFactoryCreateDenomResponse {
   string new_token_denom = 1
       [ (gogoproto.moretags) = "yaml:\"new_token_denom\"" ];
 }
 
-// MsgMint is the sdk.Msg type for allowing an admin account to mint
+// MsgTokenFactoryMint is the sdk.Msg type for allowing an admin account to mint
 // more of a token.  For now, we only support minting to the sender account
-message MsgMint {
+message MsgTokenFactoryMint {
   string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
   cosmos.base.v1beta1.Coin amount = 2 [
     (gogoproto.moretags) = "yaml:\"amount\"",
@@ -52,11 +52,11 @@ message MsgMint {
       [ (gogoproto.moretags) = "yaml:\"mint_to_address\"" ];
 }
 
-message MsgMintResponse {}
+message MsgTokenFactoryMintResponse {}
 
-// MsgBurn is the sdk.Msg type for allowing an admin account to burn
+// MsgTokenFactoryBurn is the sdk.Msg type for allowing an admin account to burn
 // a token.  For now, we only support burning from the sender account.
-message MsgBurn {
+message MsgTokenFactoryBurn {
   string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
   cosmos.base.v1beta1.Coin amount = 2 [
     (gogoproto.moretags) = "yaml:\"amount\"",
@@ -66,23 +66,23 @@ message MsgBurn {
       [ (gogoproto.moretags) = "yaml:\"burn_from_address\"" ];
 }
 
-message MsgBurnResponse {}
+message MsgTokenFactoryBurnResponse {}
 
-// MsgChangeAdmin is the sdk.Msg type for allowing an admin account to reassign
+// MsgTokenFactoryChangeAdmin is the sdk.Msg type for allowing an admin account to reassign
 // adminship of a denom to a new account
-message MsgChangeAdmin {
+message MsgTokenFactoryChangeAdmin {
   string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
   string denom = 2 [ (gogoproto.moretags) = "yaml:\"denom\"" ];
   string new_admin = 3 [ (gogoproto.moretags) = "yaml:\"new_admin\"" ];
 }
 
-// MsgChangeAdminResponse defines the response structure for an executed
-// MsgChangeAdmin message.
-message MsgChangeAdminResponse {}
+// MsgTokenFactoryChangeAdminResponse defines the response structure for an executed
+// MsgTokenFactoryChangeAdmin message.
+message MsgTokenFactoryChangeAdminResponse {}
 
-// MsgSetDenomMetadata is the sdk.Msg type for allowing an admin account to set
+// MsgTokenFactorySetDenomMetadata is the sdk.Msg type for allowing an admin account to set
 // the denom's bank metadata
-message MsgSetDenomMetadata {
+message MsgTokenFactorySetDenomMetadata {
   string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
   cosmos.bank.v1beta1.Metadata metadata = 2 [
     (gogoproto.moretags) = "yaml:\"metadata\"",
@@ -90,11 +90,11 @@ message MsgSetDenomMetadata {
   ];
 }
 
-// MsgSetDenomMetadataResponse defines the response structure for an executed
-// MsgSetDenomMetadata message.
-message MsgSetDenomMetadataResponse {}
+// MsgTokenFactorySetDenomMetadataResponse defines the response structure for an executed
+// MsgTokenFactorySetDenomMetadata message.
+message MsgTokenFactorySetDenomMetadataResponse {}
 
-message MsgForceTransfer {
+message MsgTokenFactoryForceTransfer {
   string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
   cosmos.base.v1beta1.Coin amount = 2 [
     (gogoproto.moretags) = "yaml:\"amount\"",
@@ -106,4 +106,4 @@ message MsgForceTransfer {
       [ (gogoproto.moretags) = "yaml:\"transfer_to_address\"" ];
 }
 
-message MsgForceTransferResponse {}
+message MsgTokenFactoryForceTransferResponse {}

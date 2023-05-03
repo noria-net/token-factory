@@ -4,7 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/gogo/protobuf/proto"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 )
 
 // GetAuthorityMetadata returns the authority metadata for a specific denom

@@ -43,8 +43,10 @@ buf mod update
 cd ..
 buf generate
 
+echo -e "Done generating proto files"
+
 # move proto files to the right places
-cp -r ./github.com/CosmWasm/token-factory/x/* x/
+cp -r ./github.com/noria-net/token-factory/x/* x/
 rm -rf ./github.com
 
 go mod tidy 

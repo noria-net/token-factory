@@ -3,14 +3,14 @@ package keeper_test
 import (
 	"testing"
 
+	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/CosmWasm/token-factory/app/apptesting"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/keeper"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/testhelpers"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/app/apptesting"
+	"github.com/noria-net/token-factory/x/tokenfactory/keeper"
+	"github.com/noria-net/token-factory/x/tokenfactory/testhelpers"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 )
 
 type KeeperTestSuite struct {

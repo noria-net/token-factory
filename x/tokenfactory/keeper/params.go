@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

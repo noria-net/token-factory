@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/testhelpers"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/testhelpers"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 )
 
 func (suite *KeeperTestSuite) TestMsgCreateDenom() {
@@ -143,7 +143,7 @@ func (suite *KeeperTestSuite) TestCreateDenom() {
 			postCreateBalance := bankKeeper.GetAllBalances(suite.Ctx, suite.TestAccs[0])
 			if tc.valid {
 				suite.Require().NoError(err)
-				suite.Require().True(preCreateBalance.Sub(postCreateBalance).IsEqual(denomCreationFee))
+				suite.Require().True(preCreateBalance.Sub(postCreateBalance[0]).IsEqual(denomCreationFee))
 
 				// Make sure that the admin is set correctly
 				queryRes, err := suite.queryClient.DenomAuthorityMetadata(suite.Ctx.Context(), &types.QueryDenomAuthorityMetadataRequest{

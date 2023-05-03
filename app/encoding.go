@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/cosmos/cosmos-sdk/std"
 
-	"github.com/CosmWasm/token-factory/app/params"
+	"github.com/noria-net/token-factory/app/params"
 )
 
 // MakeEncodingConfig creates a new EncodingConfig with all modules registered

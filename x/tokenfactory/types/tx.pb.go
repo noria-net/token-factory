@@ -8,9 +8,9 @@ import (
 	fmt "fmt"
 	types "github.com/cosmos/cosmos-sdk/types"
 	types1 "github.com/cosmos/cosmos-sdk/x/bank/types"
-	_ "github.com/cosmos/gogoproto/gogoproto"
-	grpc1 "github.com/gogo/protobuf/grpc"
-	proto "github.com/gogo/protobuf/proto"
+	_ "github.com/gogo/protobuf/gogoproto"
+	grpc1 "github.com/cosmos/gogoproto/grpc"
+	proto "github.com/cosmos/gogoproto/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -30,7 +30,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgCreateDenom defines the message structure for the CreateDenom gRPC service
+// MsgTokenFactoryCreateDenom defines the message structure for the CreateDenom gRPC service
 // method. It allows an account to create a new denom. It requires a sender
 // address and a sub denomination. The (sender_address, sub_denomination) tuple
 // must be unique and cannot be re-used.
@@ -39,24 +39,24 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 // <factory/{creatorAddress}/{subdenom}>. The resulting denom's admin is
 // originally set to be the creator, but this can be changed later. The token
 // denom does not indicate the current admin.
-type MsgCreateDenom struct {
+type MsgTokenFactoryCreateDenom struct {
 	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty" yaml:"sender"`
 	// subdenom can be up to 44 "alphanumeric" characters long.
 	Subdenom string `protobuf:"bytes,2,opt,name=subdenom,proto3" json:"subdenom,omitempty" yaml:"subdenom"`
 }
 
-func (m *MsgCreateDenom) Reset()         { *m = MsgCreateDenom{} }
-func (m *MsgCreateDenom) String() string { return proto.CompactTextString(m) }
-func (*MsgCreateDenom) ProtoMessage()    {}
-func (*MsgCreateDenom) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryCreateDenom) Reset()         { *m = MsgTokenFactoryCreateDenom{} }
+func (m *MsgTokenFactoryCreateDenom) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryCreateDenom) ProtoMessage()    {}
+func (*MsgTokenFactoryCreateDenom) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{0}
 }
-func (m *MsgCreateDenom) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryCreateDenom) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgCreateDenom) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryCreateDenom) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgCreateDenom.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryCreateDenom.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -66,50 +66,50 @@ func (m *MsgCreateDenom) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *MsgCreateDenom) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCreateDenom.Merge(m, src)
+func (m *MsgTokenFactoryCreateDenom) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryCreateDenom.Merge(m, src)
 }
-func (m *MsgCreateDenom) XXX_Size() int {
+func (m *MsgTokenFactoryCreateDenom) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgCreateDenom) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCreateDenom.DiscardUnknown(m)
+func (m *MsgTokenFactoryCreateDenom) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryCreateDenom.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgCreateDenom proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryCreateDenom proto.InternalMessageInfo
 
-func (m *MsgCreateDenom) GetSender() string {
+func (m *MsgTokenFactoryCreateDenom) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *MsgCreateDenom) GetSubdenom() string {
+func (m *MsgTokenFactoryCreateDenom) GetSubdenom() string {
 	if m != nil {
 		return m.Subdenom
 	}
 	return ""
 }
 
-// MsgCreateDenomResponse is the return value of MsgCreateDenom
+// MsgTokenFactoryCreateDenomResponse is the return value of MsgTokenFactoryCreateDenom
 // It returns the full string of the newly created denom
-type MsgCreateDenomResponse struct {
+type MsgTokenFactoryCreateDenomResponse struct {
 	NewTokenDenom string `protobuf:"bytes,1,opt,name=new_token_denom,json=newTokenDenom,proto3" json:"new_token_denom,omitempty" yaml:"new_token_denom"`
 }
 
-func (m *MsgCreateDenomResponse) Reset()         { *m = MsgCreateDenomResponse{} }
-func (m *MsgCreateDenomResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgCreateDenomResponse) ProtoMessage()    {}
-func (*MsgCreateDenomResponse) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryCreateDenomResponse) Reset()         { *m = MsgTokenFactoryCreateDenomResponse{} }
+func (m *MsgTokenFactoryCreateDenomResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryCreateDenomResponse) ProtoMessage()    {}
+func (*MsgTokenFactoryCreateDenomResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{1}
 }
-func (m *MsgCreateDenomResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryCreateDenomResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgCreateDenomResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryCreateDenomResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgCreateDenomResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryCreateDenomResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -119,45 +119,45 @@ func (m *MsgCreateDenomResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *MsgCreateDenomResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCreateDenomResponse.Merge(m, src)
+func (m *MsgTokenFactoryCreateDenomResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryCreateDenomResponse.Merge(m, src)
 }
-func (m *MsgCreateDenomResponse) XXX_Size() int {
+func (m *MsgTokenFactoryCreateDenomResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgCreateDenomResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCreateDenomResponse.DiscardUnknown(m)
+func (m *MsgTokenFactoryCreateDenomResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryCreateDenomResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgCreateDenomResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryCreateDenomResponse proto.InternalMessageInfo
 
-func (m *MsgCreateDenomResponse) GetNewTokenDenom() string {
+func (m *MsgTokenFactoryCreateDenomResponse) GetNewTokenDenom() string {
 	if m != nil {
 		return m.NewTokenDenom
 	}
 	return ""
 }
 
-// MsgMint is the sdk.Msg type for allowing an admin account to mint
+// MsgTokenFactoryMint is the sdk.Msg type for allowing an admin account to mint
 // more of a token.  For now, we only support minting to the sender account
-type MsgMint struct {
+type MsgTokenFactoryMint struct {
 	Sender        string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty" yaml:"sender"`
 	Amount        types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount" yaml:"amount"`
 	MintToAddress string     `protobuf:"bytes,3,opt,name=mintToAddress,proto3" json:"mintToAddress,omitempty" yaml:"mint_to_address"`
 }
 
-func (m *MsgMint) Reset()         { *m = MsgMint{} }
-func (m *MsgMint) String() string { return proto.CompactTextString(m) }
-func (*MsgMint) ProtoMessage()    {}
-func (*MsgMint) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryMint) Reset()         { *m = MsgTokenFactoryMint{} }
+func (m *MsgTokenFactoryMint) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryMint) ProtoMessage()    {}
+func (*MsgTokenFactoryMint) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{2}
 }
-func (m *MsgMint) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryMint) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgMint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryMint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgMint.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryMint.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -167,54 +167,54 @@ func (m *MsgMint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *MsgMint) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgMint.Merge(m, src)
+func (m *MsgTokenFactoryMint) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryMint.Merge(m, src)
 }
-func (m *MsgMint) XXX_Size() int {
+func (m *MsgTokenFactoryMint) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgMint) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgMint.DiscardUnknown(m)
+func (m *MsgTokenFactoryMint) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryMint.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgMint proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryMint proto.InternalMessageInfo
 
-func (m *MsgMint) GetSender() string {
+func (m *MsgTokenFactoryMint) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *MsgMint) GetAmount() types.Coin {
+func (m *MsgTokenFactoryMint) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-func (m *MsgMint) GetMintToAddress() string {
+func (m *MsgTokenFactoryMint) GetMintToAddress() string {
 	if m != nil {
 		return m.MintToAddress
 	}
 	return ""
 }
 
-type MsgMintResponse struct {
+type MsgTokenFactoryMintResponse struct {
 }
 
-func (m *MsgMintResponse) Reset()         { *m = MsgMintResponse{} }
-func (m *MsgMintResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgMintResponse) ProtoMessage()    {}
-func (*MsgMintResponse) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryMintResponse) Reset()         { *m = MsgTokenFactoryMintResponse{} }
+func (m *MsgTokenFactoryMintResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryMintResponse) ProtoMessage()    {}
+func (*MsgTokenFactoryMintResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{3}
 }
-func (m *MsgMintResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryMintResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgMintResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryMintResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgMintResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryMintResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -224,38 +224,38 @@ func (m *MsgMintResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-func (m *MsgMintResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgMintResponse.Merge(m, src)
+func (m *MsgTokenFactoryMintResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryMintResponse.Merge(m, src)
 }
-func (m *MsgMintResponse) XXX_Size() int {
+func (m *MsgTokenFactoryMintResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgMintResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgMintResponse.DiscardUnknown(m)
+func (m *MsgTokenFactoryMintResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryMintResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgMintResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryMintResponse proto.InternalMessageInfo
 
-// MsgBurn is the sdk.Msg type for allowing an admin account to burn
+// MsgTokenFactoryBurn is the sdk.Msg type for allowing an admin account to burn
 // a token.  For now, we only support burning from the sender account.
-type MsgBurn struct {
+type MsgTokenFactoryBurn struct {
 	Sender          string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty" yaml:"sender"`
 	Amount          types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount" yaml:"amount"`
 	BurnFromAddress string     `protobuf:"bytes,3,opt,name=burnFromAddress,proto3" json:"burnFromAddress,omitempty" yaml:"burn_from_address"`
 }
 
-func (m *MsgBurn) Reset()         { *m = MsgBurn{} }
-func (m *MsgBurn) String() string { return proto.CompactTextString(m) }
-func (*MsgBurn) ProtoMessage()    {}
-func (*MsgBurn) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryBurn) Reset()         { *m = MsgTokenFactoryBurn{} }
+func (m *MsgTokenFactoryBurn) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryBurn) ProtoMessage()    {}
+func (*MsgTokenFactoryBurn) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{4}
 }
-func (m *MsgBurn) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryBurn) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgBurn) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryBurn) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgBurn.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryBurn.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -265,54 +265,54 @@ func (m *MsgBurn) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *MsgBurn) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBurn.Merge(m, src)
+func (m *MsgTokenFactoryBurn) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryBurn.Merge(m, src)
 }
-func (m *MsgBurn) XXX_Size() int {
+func (m *MsgTokenFactoryBurn) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgBurn) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBurn.DiscardUnknown(m)
+func (m *MsgTokenFactoryBurn) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryBurn.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgBurn proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryBurn proto.InternalMessageInfo
 
-func (m *MsgBurn) GetSender() string {
+func (m *MsgTokenFactoryBurn) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *MsgBurn) GetAmount() types.Coin {
+func (m *MsgTokenFactoryBurn) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-func (m *MsgBurn) GetBurnFromAddress() string {
+func (m *MsgTokenFactoryBurn) GetBurnFromAddress() string {
 	if m != nil {
 		return m.BurnFromAddress
 	}
 	return ""
 }
 
-type MsgBurnResponse struct {
+type MsgTokenFactoryBurnResponse struct {
 }
 
-func (m *MsgBurnResponse) Reset()         { *m = MsgBurnResponse{} }
-func (m *MsgBurnResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgBurnResponse) ProtoMessage()    {}
-func (*MsgBurnResponse) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryBurnResponse) Reset()         { *m = MsgTokenFactoryBurnResponse{} }
+func (m *MsgTokenFactoryBurnResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryBurnResponse) ProtoMessage()    {}
+func (*MsgTokenFactoryBurnResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{5}
 }
-func (m *MsgBurnResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryBurnResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgBurnResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryBurnResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgBurnResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryBurnResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -322,38 +322,38 @@ func (m *MsgBurnResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-func (m *MsgBurnResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgBurnResponse.Merge(m, src)
+func (m *MsgTokenFactoryBurnResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryBurnResponse.Merge(m, src)
 }
-func (m *MsgBurnResponse) XXX_Size() int {
+func (m *MsgTokenFactoryBurnResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgBurnResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgBurnResponse.DiscardUnknown(m)
+func (m *MsgTokenFactoryBurnResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryBurnResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgBurnResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryBurnResponse proto.InternalMessageInfo
 
-// MsgChangeAdmin is the sdk.Msg type for allowing an admin account to reassign
+// MsgTokenFactoryChangeAdmin is the sdk.Msg type for allowing an admin account to reassign
 // adminship of a denom to a new account
-type MsgChangeAdmin struct {
+type MsgTokenFactoryChangeAdmin struct {
 	Sender   string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty" yaml:"sender"`
 	Denom    string `protobuf:"bytes,2,opt,name=denom,proto3" json:"denom,omitempty" yaml:"denom"`
 	NewAdmin string `protobuf:"bytes,3,opt,name=new_admin,json=newAdmin,proto3" json:"new_admin,omitempty" yaml:"new_admin"`
 }
 
-func (m *MsgChangeAdmin) Reset()         { *m = MsgChangeAdmin{} }
-func (m *MsgChangeAdmin) String() string { return proto.CompactTextString(m) }
-func (*MsgChangeAdmin) ProtoMessage()    {}
-func (*MsgChangeAdmin) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryChangeAdmin) Reset()         { *m = MsgTokenFactoryChangeAdmin{} }
+func (m *MsgTokenFactoryChangeAdmin) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryChangeAdmin) ProtoMessage()    {}
+func (*MsgTokenFactoryChangeAdmin) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{6}
 }
-func (m *MsgChangeAdmin) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryChangeAdmin) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgChangeAdmin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryChangeAdmin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgChangeAdmin.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryChangeAdmin.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -363,56 +363,56 @@ func (m *MsgChangeAdmin) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-func (m *MsgChangeAdmin) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgChangeAdmin.Merge(m, src)
+func (m *MsgTokenFactoryChangeAdmin) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryChangeAdmin.Merge(m, src)
 }
-func (m *MsgChangeAdmin) XXX_Size() int {
+func (m *MsgTokenFactoryChangeAdmin) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgChangeAdmin) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgChangeAdmin.DiscardUnknown(m)
+func (m *MsgTokenFactoryChangeAdmin) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryChangeAdmin.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgChangeAdmin proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryChangeAdmin proto.InternalMessageInfo
 
-func (m *MsgChangeAdmin) GetSender() string {
+func (m *MsgTokenFactoryChangeAdmin) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *MsgChangeAdmin) GetDenom() string {
+func (m *MsgTokenFactoryChangeAdmin) GetDenom() string {
 	if m != nil {
 		return m.Denom
 	}
 	return ""
 }
 
-func (m *MsgChangeAdmin) GetNewAdmin() string {
+func (m *MsgTokenFactoryChangeAdmin) GetNewAdmin() string {
 	if m != nil {
 		return m.NewAdmin
 	}
 	return ""
 }
 
-// MsgChangeAdminResponse defines the response structure for an executed
-// MsgChangeAdmin message.
-type MsgChangeAdminResponse struct {
+// MsgTokenFactoryChangeAdminResponse defines the response structure for an executed
+// MsgTokenFactoryChangeAdmin message.
+type MsgTokenFactoryChangeAdminResponse struct {
 }
 
-func (m *MsgChangeAdminResponse) Reset()         { *m = MsgChangeAdminResponse{} }
-func (m *MsgChangeAdminResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgChangeAdminResponse) ProtoMessage()    {}
-func (*MsgChangeAdminResponse) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryChangeAdminResponse) Reset()         { *m = MsgTokenFactoryChangeAdminResponse{} }
+func (m *MsgTokenFactoryChangeAdminResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryChangeAdminResponse) ProtoMessage()    {}
+func (*MsgTokenFactoryChangeAdminResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{7}
 }
-func (m *MsgChangeAdminResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryChangeAdminResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgChangeAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryChangeAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgChangeAdminResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryChangeAdminResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -422,37 +422,37 @@ func (m *MsgChangeAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *MsgChangeAdminResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgChangeAdminResponse.Merge(m, src)
+func (m *MsgTokenFactoryChangeAdminResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryChangeAdminResponse.Merge(m, src)
 }
-func (m *MsgChangeAdminResponse) XXX_Size() int {
+func (m *MsgTokenFactoryChangeAdminResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgChangeAdminResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgChangeAdminResponse.DiscardUnknown(m)
+func (m *MsgTokenFactoryChangeAdminResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryChangeAdminResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgChangeAdminResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryChangeAdminResponse proto.InternalMessageInfo
 
-// MsgSetDenomMetadata is the sdk.Msg type for allowing an admin account to set
+// MsgTokenFactorySetDenomMetadata is the sdk.Msg type for allowing an admin account to set
 // the denom's bank metadata
-type MsgSetDenomMetadata struct {
+type MsgTokenFactorySetDenomMetadata struct {
 	Sender   string          `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty" yaml:"sender"`
 	Metadata types1.Metadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata" yaml:"metadata"`
 }
 
-func (m *MsgSetDenomMetadata) Reset()         { *m = MsgSetDenomMetadata{} }
-func (m *MsgSetDenomMetadata) String() string { return proto.CompactTextString(m) }
-func (*MsgSetDenomMetadata) ProtoMessage()    {}
-func (*MsgSetDenomMetadata) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactorySetDenomMetadata) Reset()         { *m = MsgTokenFactorySetDenomMetadata{} }
+func (m *MsgTokenFactorySetDenomMetadata) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactorySetDenomMetadata) ProtoMessage()    {}
+func (*MsgTokenFactorySetDenomMetadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{8}
 }
-func (m *MsgSetDenomMetadata) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactorySetDenomMetadata) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgSetDenomMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactorySetDenomMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgSetDenomMetadata.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactorySetDenomMetadata.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -462,49 +462,51 @@ func (m *MsgSetDenomMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *MsgSetDenomMetadata) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgSetDenomMetadata.Merge(m, src)
+func (m *MsgTokenFactorySetDenomMetadata) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactorySetDenomMetadata.Merge(m, src)
 }
-func (m *MsgSetDenomMetadata) XXX_Size() int {
+func (m *MsgTokenFactorySetDenomMetadata) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgSetDenomMetadata) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgSetDenomMetadata.DiscardUnknown(m)
+func (m *MsgTokenFactorySetDenomMetadata) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactorySetDenomMetadata.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgSetDenomMetadata proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactorySetDenomMetadata proto.InternalMessageInfo
 
-func (m *MsgSetDenomMetadata) GetSender() string {
+func (m *MsgTokenFactorySetDenomMetadata) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *MsgSetDenomMetadata) GetMetadata() types1.Metadata {
+func (m *MsgTokenFactorySetDenomMetadata) GetMetadata() types1.Metadata {
 	if m != nil {
 		return m.Metadata
 	}
 	return types1.Metadata{}
 }
 
-// MsgSetDenomMetadataResponse defines the response structure for an executed
-// MsgSetDenomMetadata message.
-type MsgSetDenomMetadataResponse struct {
+// MsgTokenFactorySetDenomMetadataResponse defines the response structure for an executed
+// MsgTokenFactorySetDenomMetadata message.
+type MsgTokenFactorySetDenomMetadataResponse struct {
 }
 
-func (m *MsgSetDenomMetadataResponse) Reset()         { *m = MsgSetDenomMetadataResponse{} }
-func (m *MsgSetDenomMetadataResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgSetDenomMetadataResponse) ProtoMessage()    {}
-func (*MsgSetDenomMetadataResponse) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactorySetDenomMetadataResponse) Reset() {
+	*m = MsgTokenFactorySetDenomMetadataResponse{}
+}
+func (m *MsgTokenFactorySetDenomMetadataResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactorySetDenomMetadataResponse) ProtoMessage()    {}
+func (*MsgTokenFactorySetDenomMetadataResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{9}
 }
-func (m *MsgSetDenomMetadataResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactorySetDenomMetadataResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgSetDenomMetadataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactorySetDenomMetadataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgSetDenomMetadataResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactorySetDenomMetadataResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -514,37 +516,37 @@ func (m *MsgSetDenomMetadataResponse) XXX_Marshal(b []byte, deterministic bool) 
 		return b[:n], nil
 	}
 }
-func (m *MsgSetDenomMetadataResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgSetDenomMetadataResponse.Merge(m, src)
+func (m *MsgTokenFactorySetDenomMetadataResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactorySetDenomMetadataResponse.Merge(m, src)
 }
-func (m *MsgSetDenomMetadataResponse) XXX_Size() int {
+func (m *MsgTokenFactorySetDenomMetadataResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgSetDenomMetadataResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgSetDenomMetadataResponse.DiscardUnknown(m)
+func (m *MsgTokenFactorySetDenomMetadataResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactorySetDenomMetadataResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgSetDenomMetadataResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactorySetDenomMetadataResponse proto.InternalMessageInfo
 
-type MsgForceTransfer struct {
+type MsgTokenFactoryForceTransfer struct {
 	Sender              string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty" yaml:"sender"`
 	Amount              types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount" yaml:"amount"`
 	TransferFromAddress string     `protobuf:"bytes,3,opt,name=transferFromAddress,proto3" json:"transferFromAddress,omitempty" yaml:"transfer_from_address"`
 	TransferToAddress   string     `protobuf:"bytes,4,opt,name=transferToAddress,proto3" json:"transferToAddress,omitempty" yaml:"transfer_to_address"`
 }
 
-func (m *MsgForceTransfer) Reset()         { *m = MsgForceTransfer{} }
-func (m *MsgForceTransfer) String() string { return proto.CompactTextString(m) }
-func (*MsgForceTransfer) ProtoMessage()    {}
-func (*MsgForceTransfer) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryForceTransfer) Reset()         { *m = MsgTokenFactoryForceTransfer{} }
+func (m *MsgTokenFactoryForceTransfer) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryForceTransfer) ProtoMessage()    {}
+func (*MsgTokenFactoryForceTransfer) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{10}
 }
-func (m *MsgForceTransfer) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryForceTransfer) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgForceTransfer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryForceTransfer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgForceTransfer.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryForceTransfer.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -554,61 +556,61 @@ func (m *MsgForceTransfer) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *MsgForceTransfer) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgForceTransfer.Merge(m, src)
+func (m *MsgTokenFactoryForceTransfer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryForceTransfer.Merge(m, src)
 }
-func (m *MsgForceTransfer) XXX_Size() int {
+func (m *MsgTokenFactoryForceTransfer) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgForceTransfer) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgForceTransfer.DiscardUnknown(m)
+func (m *MsgTokenFactoryForceTransfer) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryForceTransfer.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgForceTransfer proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryForceTransfer proto.InternalMessageInfo
 
-func (m *MsgForceTransfer) GetSender() string {
+func (m *MsgTokenFactoryForceTransfer) GetSender() string {
 	if m != nil {
 		return m.Sender
 	}
 	return ""
 }
 
-func (m *MsgForceTransfer) GetAmount() types.Coin {
+func (m *MsgTokenFactoryForceTransfer) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-func (m *MsgForceTransfer) GetTransferFromAddress() string {
+func (m *MsgTokenFactoryForceTransfer) GetTransferFromAddress() string {
 	if m != nil {
 		return m.TransferFromAddress
 	}
 	return ""
 }
 
-func (m *MsgForceTransfer) GetTransferToAddress() string {
+func (m *MsgTokenFactoryForceTransfer) GetTransferToAddress() string {
 	if m != nil {
 		return m.TransferToAddress
 	}
 	return ""
 }
 
-type MsgForceTransferResponse struct {
+type MsgTokenFactoryForceTransferResponse struct {
 }
 
-func (m *MsgForceTransferResponse) Reset()         { *m = MsgForceTransferResponse{} }
-func (m *MsgForceTransferResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgForceTransferResponse) ProtoMessage()    {}
-func (*MsgForceTransferResponse) Descriptor() ([]byte, []int) {
+func (m *MsgTokenFactoryForceTransferResponse) Reset()         { *m = MsgTokenFactoryForceTransferResponse{} }
+func (m *MsgTokenFactoryForceTransferResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgTokenFactoryForceTransferResponse) ProtoMessage()    {}
+func (*MsgTokenFactoryForceTransferResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_283b6c9a90a846b4, []int{11}
 }
-func (m *MsgForceTransferResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgTokenFactoryForceTransferResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgForceTransferResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgTokenFactoryForceTransferResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgForceTransferResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgTokenFactoryForceTransferResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -618,31 +620,31 @@ func (m *MsgForceTransferResponse) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgForceTransferResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgForceTransferResponse.Merge(m, src)
+func (m *MsgTokenFactoryForceTransferResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgTokenFactoryForceTransferResponse.Merge(m, src)
 }
-func (m *MsgForceTransferResponse) XXX_Size() int {
+func (m *MsgTokenFactoryForceTransferResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgForceTransferResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgForceTransferResponse.DiscardUnknown(m)
+func (m *MsgTokenFactoryForceTransferResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgTokenFactoryForceTransferResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgForceTransferResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgTokenFactoryForceTransferResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*MsgCreateDenom)(nil), "osmosis.tokenfactory.v1beta1.MsgCreateDenom")
-	proto.RegisterType((*MsgCreateDenomResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgCreateDenomResponse")
-	proto.RegisterType((*MsgMint)(nil), "osmosis.tokenfactory.v1beta1.MsgMint")
-	proto.RegisterType((*MsgMintResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgMintResponse")
-	proto.RegisterType((*MsgBurn)(nil), "osmosis.tokenfactory.v1beta1.MsgBurn")
-	proto.RegisterType((*MsgBurnResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgBurnResponse")
-	proto.RegisterType((*MsgChangeAdmin)(nil), "osmosis.tokenfactory.v1beta1.MsgChangeAdmin")
-	proto.RegisterType((*MsgChangeAdminResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgChangeAdminResponse")
-	proto.RegisterType((*MsgSetDenomMetadata)(nil), "osmosis.tokenfactory.v1beta1.MsgSetDenomMetadata")
-	proto.RegisterType((*MsgSetDenomMetadataResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgSetDenomMetadataResponse")
-	proto.RegisterType((*MsgForceTransfer)(nil), "osmosis.tokenfactory.v1beta1.MsgForceTransfer")
-	proto.RegisterType((*MsgForceTransferResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgForceTransferResponse")
+	proto.RegisterType((*MsgTokenFactoryCreateDenom)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryCreateDenom")
+	proto.RegisterType((*MsgTokenFactoryCreateDenomResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryCreateDenomResponse")
+	proto.RegisterType((*MsgTokenFactoryMint)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryMint")
+	proto.RegisterType((*MsgTokenFactoryMintResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryMintResponse")
+	proto.RegisterType((*MsgTokenFactoryBurn)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryBurn")
+	proto.RegisterType((*MsgTokenFactoryBurnResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryBurnResponse")
+	proto.RegisterType((*MsgTokenFactoryChangeAdmin)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryChangeAdmin")
+	proto.RegisterType((*MsgTokenFactoryChangeAdminResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryChangeAdminResponse")
+	proto.RegisterType((*MsgTokenFactorySetDenomMetadata)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactorySetDenomMetadata")
+	proto.RegisterType((*MsgTokenFactorySetDenomMetadataResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactorySetDenomMetadataResponse")
+	proto.RegisterType((*MsgTokenFactoryForceTransfer)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryForceTransfer")
+	proto.RegisterType((*MsgTokenFactoryForceTransferResponse)(nil), "osmosis.tokenfactory.v1beta1.MsgTokenFactoryForceTransferResponse")
 }
 
 func init() {
@@ -650,54 +652,54 @@ func init() {
 }
 
 var fileDescriptor_283b6c9a90a846b4 = []byte{
-	// 746 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x56, 0xcd, 0x4e, 0xdb, 0x4a,
-	0x14, 0x8e, 0xf9, 0xbb, 0x30, 0xdc, 0xdc, 0x04, 0xc3, 0xe5, 0xe6, 0xba, 0x60, 0xa3, 0x91, 0xa8,
-	0x5a, 0xa9, 0x38, 0x0a, 0xad, 0x90, 0xda, 0x55, 0x09, 0x15, 0xea, 0xa2, 0x91, 0x2a, 0x17, 0xa9,
-	0x52, 0x85, 0x14, 0x4d, 0x92, 0xc1, 0x44, 0xe0, 0x19, 0xea, 0x99, 0x34, 0xb0, 0xeb, 0x23, 0x74,
-	0x51, 0xf5, 0x05, 0xba, 0xea, 0x5b, 0x74, 0x55, 0xb1, 0x64, 0xd9, 0x95, 0x55, 0xc1, 0x1b, 0xf8,
-	0x09, 0x2a, 0xcf, 0x8c, 0x1d, 0xdb, 0x41, 0x4d, 0xb2, 0x62, 0x97, 0xf8, 0x7c, 0xdf, 0x37, 0xe7,
-	0x3b, 0x73, 0xce, 0xd1, 0x80, 0x4d, 0xca, 0x3c, 0xca, 0xba, 0xac, 0xca, 0xe9, 0x09, 0x26, 0x47,
-	0xa8, 0xcd, 0xa9, 0x7f, 0x51, 0xfd, 0x50, 0x6b, 0x61, 0x8e, 0x6a, 0x55, 0x7e, 0x6e, 0x9f, 0xf9,
-	0x94, 0x53, 0x7d, 0x4d, 0xc1, 0xec, 0x34, 0xcc, 0x56, 0x30, 0x63, 0xc5, 0xa5, 0x2e, 0x15, 0xc0,
-	0x6a, 0xf4, 0x4b, 0x72, 0x0c, 0xb3, 0x2d, 0x48, 0xd5, 0x16, 0x62, 0x38, 0x51, 0x6c, 0xd3, 0x2e,
-	0x19, 0x8a, 0x93, 0x93, 0x24, 0x1e, 0xfd, 0x91, 0x71, 0x78, 0x0a, 0xfe, 0x69, 0x30, 0x77, 0xcf,
-	0xc7, 0x88, 0xe3, 0x17, 0x98, 0x50, 0x4f, 0x7f, 0x08, 0xe6, 0x18, 0x26, 0x1d, 0xec, 0x57, 0xb4,
-	0x0d, 0xed, 0xc1, 0x42, 0x7d, 0x29, 0x0c, 0xac, 0xe2, 0x05, 0xf2, 0x4e, 0x9f, 0x41, 0xf9, 0x1d,
-	0x3a, 0x0a, 0xa0, 0x57, 0xc1, 0x3c, 0xeb, 0xb5, 0x3a, 0x11, 0xad, 0x32, 0x25, 0xc0, 0xcb, 0x61,
-	0x60, 0x95, 0x14, 0x58, 0x45, 0xa0, 0x93, 0x80, 0xe0, 0x21, 0x58, 0xcd, 0x9e, 0xe6, 0x60, 0x76,
-	0x46, 0x09, 0xc3, 0x7a, 0x1d, 0x94, 0x08, 0xee, 0x37, 0x85, 0xf3, 0xa6, 0x54, 0x94, 0xc7, 0x1b,
-	0x61, 0x60, 0xad, 0x4a, 0xc5, 0x1c, 0x00, 0x3a, 0x45, 0x82, 0xfb, 0x07, 0xd1, 0x07, 0xa1, 0x05,
-	0xbf, 0x6b, 0xe0, 0xaf, 0x06, 0x73, 0x1b, 0x5d, 0xc2, 0x27, 0x71, 0xf1, 0x12, 0xcc, 0x21, 0x8f,
-	0xf6, 0x08, 0x17, 0x1e, 0x16, 0xb7, 0xff, 0xb7, 0x65, 0xcd, 0xec, 0xa8, 0xa6, 0x71, 0xf9, 0xed,
-	0x3d, 0xda, 0x25, 0xf5, 0x7f, 0x2f, 0x03, 0xab, 0x30, 0x50, 0x92, 0x34, 0xe8, 0x28, 0xbe, 0xfe,
-	0x1c, 0x14, 0xbd, 0x2e, 0xe1, 0x07, 0x74, 0xb7, 0xd3, 0xf1, 0x31, 0x63, 0x95, 0xe9, 0xbc, 0x85,
-	0x28, 0xdc, 0xe4, 0xb4, 0x89, 0x24, 0x00, 0x3a, 0x59, 0x02, 0x5c, 0x02, 0x25, 0xe5, 0x20, 0xae,
-	0x0c, 0xfc, 0x21, 0x5d, 0xd5, 0x7b, 0x3e, 0xb9, 0x1b, 0x57, 0xfb, 0xa0, 0xd4, 0xea, 0xf9, 0x64,
-	0xdf, 0xa7, 0x5e, 0xd6, 0xd7, 0x5a, 0x18, 0x58, 0x15, 0xc9, 0x89, 0x00, 0xcd, 0x23, 0x9f, 0x7a,
-	0x03, 0x67, 0x79, 0x92, 0xf2, 0x16, 0xf9, 0x48, 0xbc, 0x7d, 0xd1, 0x64, 0xfb, 0x1d, 0x23, 0xe2,
-	0xe2, 0xdd, 0x8e, 0xd7, 0x9d, 0xc8, 0xe2, 0x7d, 0x30, 0x9b, 0xee, 0xbd, 0x72, 0x18, 0x58, 0x7f,
-	0x4b, 0xa4, 0xea, 0x0f, 0x19, 0xd6, 0x6b, 0x60, 0x21, 0x6a, 0x1d, 0x14, 0xe9, 0xab, 0xd4, 0x57,
-	0xc2, 0xc0, 0x2a, 0x0f, 0xba, 0x4a, 0x84, 0xa0, 0x33, 0x4f, 0x70, 0x5f, 0x64, 0x01, 0x2b, 0xb2,
-	0x51, 0x07, 0x79, 0x25, 0x29, 0x7f, 0xd6, 0xc0, 0x72, 0x83, 0xb9, 0x6f, 0x30, 0x17, 0x4d, 0xd7,
-	0xc0, 0x1c, 0x75, 0x10, 0x47, 0x93, 0xe4, 0xed, 0x80, 0x79, 0x4f, 0xd1, 0xd4, 0xe5, 0xac, 0x0f,
-	0x2e, 0x87, 0x9c, 0x24, 0x97, 0x13, 0x6b, 0xd7, 0xff, 0x53, 0x17, 0xa4, 0x26, 0x2b, 0x26, 0x43,
-	0x27, 0xd1, 0x81, 0xeb, 0xe0, 0xde, 0x2d, 0x59, 0x25, 0x59, 0x7f, 0x9b, 0x02, 0xe5, 0x06, 0x73,
-	0xf7, 0xa9, 0xdf, 0xc6, 0x07, 0x3e, 0x22, 0xec, 0x08, 0xfb, 0x77, 0xd3, 0x4d, 0x0e, 0x58, 0xe6,
-	0x2a, 0x81, 0xe1, 0x8e, 0xda, 0x08, 0x03, 0x6b, 0x4d, 0xf2, 0x62, 0x50, 0xae, 0xab, 0x6e, 0x23,
-	0xeb, 0xaf, 0xc0, 0x52, 0xfc, 0x79, 0x30, 0x7b, 0x33, 0x42, 0xd1, 0x0c, 0x03, 0xcb, 0xc8, 0x29,
-	0xa6, 0xe7, 0x6f, 0x98, 0x08, 0x0d, 0x50, 0xc9, 0x97, 0x2a, 0xae, 0xe3, 0xf6, 0xd7, 0x59, 0x30,
-	0xdd, 0x60, 0xae, 0xfe, 0x1e, 0x2c, 0xa6, 0x77, 0xe6, 0x23, 0xfb, 0x4f, 0xab, 0xdb, 0xce, 0xee,
-	0x3c, 0xe3, 0xc9, 0x24, 0xe8, 0x64, 0x43, 0x1e, 0x82, 0x19, 0xb1, 0xd9, 0x36, 0x47, 0xb2, 0x23,
-	0x98, 0xb1, 0x35, 0x16, 0x2c, 0xad, 0x2e, 0x36, 0xcc, 0x68, 0xf5, 0x08, 0x36, 0x86, 0x7a, 0x7a,
-	0xce, 0x45, 0xb9, 0x52, 0x33, 0x3e, 0x46, 0xb9, 0x06, 0xe8, 0x71, 0xca, 0x35, 0x3c, 0xa7, 0xfa,
-	0x47, 0x0d, 0x94, 0x87, 0x86, 0xb4, 0x36, 0x52, 0x2a, 0x4f, 0x31, 0x9e, 0x4e, 0x4c, 0x49, 0x52,
-	0xe8, 0x83, 0x62, 0x76, 0xe0, 0xec, 0x91, 0x5a, 0x19, 0xbc, 0xb1, 0x33, 0x19, 0x3e, 0x3e, 0xb8,
-	0xfe, 0xfa, 0xf2, 0xda, 0xd4, 0xae, 0xae, 0x4d, 0xed, 0xd7, 0xb5, 0xa9, 0x7d, 0xba, 0x31, 0x0b,
-	0x57, 0x37, 0x66, 0xe1, 0xe7, 0x8d, 0x59, 0x78, 0xb7, 0xe3, 0x76, 0xf9, 0x71, 0xaf, 0x65, 0xb7,
-	0xa9, 0x57, 0xdd, 0xa3, 0xcc, 0x7b, 0x8b, 0x98, 0x27, 0x5f, 0x25, 0x5b, 0xf1, 0xb3, 0xe4, 0x3c,
-	0xfb, 0x4a, 0xe1, 0x17, 0x67, 0x98, 0xb5, 0xe6, 0xc4, 0x6b, 0xe1, 0xf1, 0xef, 0x00, 0x00, 0x00,
-	0xff, 0xff, 0xfa, 0x79, 0x80, 0xdc, 0xca, 0x08, 0x00, 0x00,
+	// 752 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x56, 0x4f, 0x4f, 0x13, 0x4f,
+	0x18, 0xee, 0x02, 0xbf, 0x06, 0x86, 0x5f, 0x03, 0x2c, 0xa8, 0x75, 0x2d, 0xbb, 0x64, 0x82, 0x28,
+	0x07, 0xb6, 0x29, 0x1e, 0x54, 0x12, 0x13, 0x28, 0xda, 0x78, 0xb0, 0x07, 0x57, 0x4e, 0x5e, 0x9a,
+	0x69, 0x3b, 0x94, 0x0d, 0xee, 0x0c, 0xd9, 0x99, 0x0a, 0x7c, 0x04, 0x4f, 0x7a, 0xf4, 0x68, 0xfc,
+	0x0e, 0xfa, 0x19, 0x38, 0x78, 0x20, 0x9e, 0x3c, 0x6d, 0x0c, 0x7c, 0x83, 0xfd, 0x04, 0x66, 0x67,
+	0xf6, 0x5f, 0x77, 0x01, 0xb3, 0x78, 0xe0, 0x06, 0xfb, 0x3e, 0xcf, 0xf3, 0xbe, 0xcf, 0x3b, 0xef,
+	0xbc, 0x1d, 0x70, 0x9f, 0x32, 0x87, 0x32, 0x9b, 0xd5, 0x39, 0xdd, 0xc7, 0x64, 0x17, 0xf5, 0x38,
+	0x75, 0x8f, 0xeb, 0xef, 0x1b, 0x5d, 0xcc, 0x51, 0xa3, 0xce, 0x8f, 0xcc, 0x03, 0x97, 0x72, 0xaa,
+	0xd6, 0x42, 0x98, 0x99, 0x86, 0x99, 0x21, 0x4c, 0x5b, 0x18, 0xd0, 0x01, 0x15, 0xc0, 0x7a, 0xf0,
+	0x97, 0xe4, 0x68, 0x7a, 0x4f, 0x90, 0xea, 0x5d, 0xc4, 0x70, 0xac, 0xd8, 0xa3, 0x36, 0xc9, 0xc5,
+	0xc9, 0x7e, 0x1c, 0x0f, 0xfe, 0x91, 0x71, 0x78, 0x04, 0xb4, 0x36, 0x1b, 0xec, 0x04, 0x09, 0x5b,
+	0x32, 0xe1, 0xb6, 0x8b, 0x11, 0xc7, 0xcf, 0x31, 0xa1, 0x8e, 0xba, 0x0a, 0xca, 0x0c, 0x93, 0x3e,
+	0x76, 0xab, 0xca, 0x92, 0xf2, 0x70, 0xaa, 0x39, 0xe7, 0x7b, 0x46, 0xe5, 0x18, 0x39, 0xef, 0x36,
+	0xa0, 0xfc, 0x0e, 0xad, 0x10, 0xa0, 0xd6, 0xc1, 0x24, 0x1b, 0x76, 0xfb, 0x01, 0xad, 0x3a, 0x26,
+	0xc0, 0xf3, 0xbe, 0x67, 0xcc, 0x84, 0xe0, 0x30, 0x02, 0xad, 0x18, 0x04, 0xf7, 0x00, 0xbc, 0x3c,
+	0xb3, 0x85, 0xd9, 0x01, 0x25, 0x0c, 0xab, 0x4d, 0x30, 0x43, 0xf0, 0x61, 0x47, 0x74, 0xa4, 0x23,
+	0xd5, 0x65, 0x29, 0x9a, 0xef, 0x19, 0xb7, 0xa5, 0x7a, 0x06, 0x00, 0xad, 0x0a, 0xc1, 0x87, 0x42,
+	0x58, 0x68, 0xc1, 0x1f, 0x0a, 0x98, 0xcf, 0xa4, 0x6a, 0xdb, 0x84, 0x17, 0x71, 0xf7, 0x12, 0x94,
+	0x91, 0x43, 0x87, 0x84, 0x0b, 0x6f, 0xd3, 0xeb, 0x77, 0x4d, 0xd9, 0x57, 0x33, 0xe8, 0x7b, 0x74,
+	0x44, 0xe6, 0x36, 0xb5, 0x49, 0xf3, 0xd6, 0x89, 0x67, 0x94, 0x12, 0x25, 0x49, 0x83, 0x56, 0xc8,
+	0x57, 0x37, 0x41, 0xc5, 0xb1, 0x09, 0xdf, 0xa1, 0x5b, 0xfd, 0xbe, 0x8b, 0x19, 0xab, 0x8e, 0x67,
+	0xed, 0x04, 0xe1, 0x0e, 0xa7, 0x1d, 0x24, 0x01, 0xd0, 0x1a, 0x25, 0xc0, 0x45, 0x70, 0xef, 0x02,
+	0x37, 0x51, 0xc7, 0xe0, 0xcf, 0xbc, 0xdb, 0xe6, 0xd0, 0x25, 0x37, 0xe3, 0xb6, 0x05, 0x66, 0xba,
+	0x43, 0x97, 0xb4, 0x5c, 0xea, 0x8c, 0xfa, 0xad, 0xf9, 0x9e, 0x51, 0x95, 0x9c, 0x00, 0xd0, 0xd9,
+	0x75, 0xa9, 0x93, 0x38, 0xce, 0x92, 0x2e, 0xf0, 0x1c, 0x78, 0x8a, 0x3d, 0x7f, 0x55, 0xf2, 0x63,
+	0xbc, 0x87, 0xc8, 0x00, 0x6f, 0xf5, 0x1d, 0xbb, 0x90, 0xf5, 0x15, 0xf0, 0x5f, 0x7a, 0x86, 0x67,
+	0x7d, 0xcf, 0xf8, 0x5f, 0x22, 0xc3, 0xd9, 0x92, 0x61, 0xb5, 0x01, 0xa6, 0x82, 0xb1, 0x43, 0x81,
+	0x7e, 0x68, 0x69, 0xc1, 0xf7, 0x8c, 0xd9, 0x64, 0x22, 0x45, 0x08, 0x5a, 0x93, 0x04, 0x1f, 0x8a,
+	0x2a, 0xe0, 0x72, 0x7e, 0xe0, 0x93, 0x1a, 0x63, 0x2b, 0x5f, 0x14, 0x60, 0x64, 0x60, 0x6f, 0x30,
+	0x17, 0x83, 0xdc, 0xc6, 0x1c, 0xf5, 0x11, 0x47, 0x45, 0xfc, 0x58, 0x60, 0xd2, 0x09, 0x69, 0xe1,
+	0x61, 0x2e, 0x26, 0x87, 0x49, 0xf6, 0xe3, 0xc3, 0x8c, 0xb4, 0x9b, 0x77, 0xc2, 0x03, 0x0d, 0x6f,
+	0x6e, 0x44, 0x86, 0x56, 0xac, 0x03, 0x57, 0xc1, 0x83, 0xbf, 0x54, 0x18, 0xbb, 0xf9, 0x36, 0x06,
+	0x6a, 0x19, 0x6c, 0x8b, 0xba, 0x3d, 0xbc, 0xe3, 0x22, 0xc2, 0x76, 0xb1, 0x7b, 0x33, 0x53, 0x69,
+	0x81, 0x79, 0x1e, 0x16, 0x90, 0x9f, 0xcc, 0x25, 0xdf, 0x33, 0x6a, 0x92, 0x17, 0x81, 0x32, 0xd3,
+	0x79, 0x11, 0x59, 0x7d, 0x05, 0xe6, 0xa2, 0xcf, 0xc9, 0xdd, 0x9e, 0x10, 0x8a, 0xba, 0xef, 0x19,
+	0x5a, 0x46, 0x31, 0x7d, 0xbf, 0xf3, 0x44, 0xb8, 0x02, 0x96, 0xaf, 0x6a, 0x5b, 0xd4, 0xdf, 0xf5,
+	0xef, 0x65, 0x30, 0xde, 0x66, 0x03, 0xf5, 0x83, 0x02, 0xa6, 0xd3, 0x8b, 0xfb, 0x89, 0x79, 0xd5,
+	0x6f, 0x89, 0x79, 0xf9, 0xe2, 0xd5, 0x36, 0xaf, 0xcb, 0x8c, 0x57, 0x36, 0x07, 0x13, 0x62, 0xbd,
+	0x36, 0x0a, 0x29, 0x05, 0x14, 0xed, 0x69, 0x61, 0x4a, 0x3a, 0xab, 0x58, 0x73, 0xc5, 0xb2, 0x06,
+	0x94, 0x82, 0x59, 0xd3, 0x8b, 0x47, 0xf6, 0x3d, 0xb5, 0x69, 0x0a, 0xf6, 0x3d, 0x61, 0x16, 0xed,
+	0x7b, 0x7e, 0x73, 0xa8, 0x9f, 0x15, 0x30, 0x9b, 0x5b, 0x15, 0xcf, 0x0a, 0xc9, 0x66, 0xe9, 0xda,
+	0x8b, 0x7f, 0xa2, 0xc7, 0xa5, 0x7d, 0x54, 0x40, 0x65, 0xf4, 0xde, 0x6f, 0x14, 0x12, 0x1e, 0xe1,
+	0x6a, 0xcd, 0xeb, 0x73, 0xa3, 0x8a, 0x9a, 0xaf, 0x4f, 0xce, 0x74, 0xe5, 0xf4, 0x4c, 0x57, 0x7e,
+	0x9f, 0xe9, 0xca, 0xa7, 0x73, 0xbd, 0x74, 0x7a, 0xae, 0x97, 0x7e, 0x9d, 0xeb, 0xa5, 0xb7, 0x8f,
+	0x07, 0x36, 0xdf, 0x1b, 0x76, 0xcd, 0x1e, 0x75, 0xea, 0x84, 0xba, 0x36, 0x5a, 0x23, 0x98, 0xcb,
+	0x97, 0xdb, 0x5a, 0xf4, 0x74, 0x3b, 0x1a, 0x7d, 0xc9, 0xf1, 0xe3, 0x03, 0xcc, 0xba, 0x65, 0xf1,
+	0xa2, 0x7a, 0xf4, 0x27, 0x00, 0x00, 0xff, 0xff, 0x7f, 0x65, 0x01, 0x29, 0xee, 0x09, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -712,12 +714,12 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	CreateDenom(ctx context.Context, in *MsgCreateDenom, opts ...grpc.CallOption) (*MsgCreateDenomResponse, error)
-	Mint(ctx context.Context, in *MsgMint, opts ...grpc.CallOption) (*MsgMintResponse, error)
-	Burn(ctx context.Context, in *MsgBurn, opts ...grpc.CallOption) (*MsgBurnResponse, error)
-	ChangeAdmin(ctx context.Context, in *MsgChangeAdmin, opts ...grpc.CallOption) (*MsgChangeAdminResponse, error)
-	SetDenomMetadata(ctx context.Context, in *MsgSetDenomMetadata, opts ...grpc.CallOption) (*MsgSetDenomMetadataResponse, error)
-	ForceTransfer(ctx context.Context, in *MsgForceTransfer, opts ...grpc.CallOption) (*MsgForceTransferResponse, error)
+	CreateDenom(ctx context.Context, in *MsgTokenFactoryCreateDenom, opts ...grpc.CallOption) (*MsgTokenFactoryCreateDenomResponse, error)
+	Mint(ctx context.Context, in *MsgTokenFactoryMint, opts ...grpc.CallOption) (*MsgTokenFactoryMintResponse, error)
+	Burn(ctx context.Context, in *MsgTokenFactoryBurn, opts ...grpc.CallOption) (*MsgTokenFactoryBurnResponse, error)
+	ChangeAdmin(ctx context.Context, in *MsgTokenFactoryChangeAdmin, opts ...grpc.CallOption) (*MsgTokenFactoryChangeAdminResponse, error)
+	SetDenomMetadata(ctx context.Context, in *MsgTokenFactorySetDenomMetadata, opts ...grpc.CallOption) (*MsgTokenFactorySetDenomMetadataResponse, error)
+	ForceTransfer(ctx context.Context, in *MsgTokenFactoryForceTransfer, opts ...grpc.CallOption) (*MsgTokenFactoryForceTransferResponse, error)
 }
 
 type msgClient struct {
@@ -728,8 +730,8 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) CreateDenom(ctx context.Context, in *MsgCreateDenom, opts ...grpc.CallOption) (*MsgCreateDenomResponse, error) {
-	out := new(MsgCreateDenomResponse)
+func (c *msgClient) CreateDenom(ctx context.Context, in *MsgTokenFactoryCreateDenom, opts ...grpc.CallOption) (*MsgTokenFactoryCreateDenomResponse, error) {
+	out := new(MsgTokenFactoryCreateDenomResponse)
 	err := c.cc.Invoke(ctx, "/osmosis.tokenfactory.v1beta1.Msg/CreateDenom", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -737,8 +739,8 @@ func (c *msgClient) CreateDenom(ctx context.Context, in *MsgCreateDenom, opts ..
 	return out, nil
 }
 
-func (c *msgClient) Mint(ctx context.Context, in *MsgMint, opts ...grpc.CallOption) (*MsgMintResponse, error) {
-	out := new(MsgMintResponse)
+func (c *msgClient) Mint(ctx context.Context, in *MsgTokenFactoryMint, opts ...grpc.CallOption) (*MsgTokenFactoryMintResponse, error) {
+	out := new(MsgTokenFactoryMintResponse)
 	err := c.cc.Invoke(ctx, "/osmosis.tokenfactory.v1beta1.Msg/Mint", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -746,8 +748,8 @@ func (c *msgClient) Mint(ctx context.Context, in *MsgMint, opts ...grpc.CallOpti
 	return out, nil
 }
 
-func (c *msgClient) Burn(ctx context.Context, in *MsgBurn, opts ...grpc.CallOption) (*MsgBurnResponse, error) {
-	out := new(MsgBurnResponse)
+func (c *msgClient) Burn(ctx context.Context, in *MsgTokenFactoryBurn, opts ...grpc.CallOption) (*MsgTokenFactoryBurnResponse, error) {
+	out := new(MsgTokenFactoryBurnResponse)
 	err := c.cc.Invoke(ctx, "/osmosis.tokenfactory.v1beta1.Msg/Burn", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -755,8 +757,8 @@ func (c *msgClient) Burn(ctx context.Context, in *MsgBurn, opts ...grpc.CallOpti
 	return out, nil
 }
 
-func (c *msgClient) ChangeAdmin(ctx context.Context, in *MsgChangeAdmin, opts ...grpc.CallOption) (*MsgChangeAdminResponse, error) {
-	out := new(MsgChangeAdminResponse)
+func (c *msgClient) ChangeAdmin(ctx context.Context, in *MsgTokenFactoryChangeAdmin, opts ...grpc.CallOption) (*MsgTokenFactoryChangeAdminResponse, error) {
+	out := new(MsgTokenFactoryChangeAdminResponse)
 	err := c.cc.Invoke(ctx, "/osmosis.tokenfactory.v1beta1.Msg/ChangeAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -764,8 +766,8 @@ func (c *msgClient) ChangeAdmin(ctx context.Context, in *MsgChangeAdmin, opts ..
 	return out, nil
 }
 
-func (c *msgClient) SetDenomMetadata(ctx context.Context, in *MsgSetDenomMetadata, opts ...grpc.CallOption) (*MsgSetDenomMetadataResponse, error) {
-	out := new(MsgSetDenomMetadataResponse)
+func (c *msgClient) SetDenomMetadata(ctx context.Context, in *MsgTokenFactorySetDenomMetadata, opts ...grpc.CallOption) (*MsgTokenFactorySetDenomMetadataResponse, error) {
+	out := new(MsgTokenFactorySetDenomMetadataResponse)
 	err := c.cc.Invoke(ctx, "/osmosis.tokenfactory.v1beta1.Msg/SetDenomMetadata", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -773,8 +775,8 @@ func (c *msgClient) SetDenomMetadata(ctx context.Context, in *MsgSetDenomMetadat
 	return out, nil
 }
 
-func (c *msgClient) ForceTransfer(ctx context.Context, in *MsgForceTransfer, opts ...grpc.CallOption) (*MsgForceTransferResponse, error) {
-	out := new(MsgForceTransferResponse)
+func (c *msgClient) ForceTransfer(ctx context.Context, in *MsgTokenFactoryForceTransfer, opts ...grpc.CallOption) (*MsgTokenFactoryForceTransferResponse, error) {
+	out := new(MsgTokenFactoryForceTransferResponse)
 	err := c.cc.Invoke(ctx, "/osmosis.tokenfactory.v1beta1.Msg/ForceTransfer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -784,34 +786,34 @@ func (c *msgClient) ForceTransfer(ctx context.Context, in *MsgForceTransfer, opt
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	CreateDenom(context.Context, *MsgCreateDenom) (*MsgCreateDenomResponse, error)
-	Mint(context.Context, *MsgMint) (*MsgMintResponse, error)
-	Burn(context.Context, *MsgBurn) (*MsgBurnResponse, error)
-	ChangeAdmin(context.Context, *MsgChangeAdmin) (*MsgChangeAdminResponse, error)
-	SetDenomMetadata(context.Context, *MsgSetDenomMetadata) (*MsgSetDenomMetadataResponse, error)
-	ForceTransfer(context.Context, *MsgForceTransfer) (*MsgForceTransferResponse, error)
+	CreateDenom(context.Context, *MsgTokenFactoryCreateDenom) (*MsgTokenFactoryCreateDenomResponse, error)
+	Mint(context.Context, *MsgTokenFactoryMint) (*MsgTokenFactoryMintResponse, error)
+	Burn(context.Context, *MsgTokenFactoryBurn) (*MsgTokenFactoryBurnResponse, error)
+	ChangeAdmin(context.Context, *MsgTokenFactoryChangeAdmin) (*MsgTokenFactoryChangeAdminResponse, error)
+	SetDenomMetadata(context.Context, *MsgTokenFactorySetDenomMetadata) (*MsgTokenFactorySetDenomMetadataResponse, error)
+	ForceTransfer(context.Context, *MsgTokenFactoryForceTransfer) (*MsgTokenFactoryForceTransferResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
 type UnimplementedMsgServer struct {
 }
 
-func (*UnimplementedMsgServer) CreateDenom(ctx context.Context, req *MsgCreateDenom) (*MsgCreateDenomResponse, error) {
+func (*UnimplementedMsgServer) CreateDenom(ctx context.Context, req *MsgTokenFactoryCreateDenom) (*MsgTokenFactoryCreateDenomResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateDenom not implemented")
 }
-func (*UnimplementedMsgServer) Mint(ctx context.Context, req *MsgMint) (*MsgMintResponse, error) {
+func (*UnimplementedMsgServer) Mint(ctx context.Context, req *MsgTokenFactoryMint) (*MsgTokenFactoryMintResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Mint not implemented")
 }
-func (*UnimplementedMsgServer) Burn(ctx context.Context, req *MsgBurn) (*MsgBurnResponse, error) {
+func (*UnimplementedMsgServer) Burn(ctx context.Context, req *MsgTokenFactoryBurn) (*MsgTokenFactoryBurnResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Burn not implemented")
 }
-func (*UnimplementedMsgServer) ChangeAdmin(ctx context.Context, req *MsgChangeAdmin) (*MsgChangeAdminResponse, error) {
+func (*UnimplementedMsgServer) ChangeAdmin(ctx context.Context, req *MsgTokenFactoryChangeAdmin) (*MsgTokenFactoryChangeAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeAdmin not implemented")
 }
-func (*UnimplementedMsgServer) SetDenomMetadata(ctx context.Context, req *MsgSetDenomMetadata) (*MsgSetDenomMetadataResponse, error) {
+func (*UnimplementedMsgServer) SetDenomMetadata(ctx context.Context, req *MsgTokenFactorySetDenomMetadata) (*MsgTokenFactorySetDenomMetadataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetDenomMetadata not implemented")
 }
-func (*UnimplementedMsgServer) ForceTransfer(ctx context.Context, req *MsgForceTransfer) (*MsgForceTransferResponse, error) {
+func (*UnimplementedMsgServer) ForceTransfer(ctx context.Context, req *MsgTokenFactoryForceTransfer) (*MsgTokenFactoryForceTransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForceTransfer not implemented")
 }
 
@@ -820,7 +822,7 @@ func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
 }
 
 func _Msg_CreateDenom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgCreateDenom)
+	in := new(MsgTokenFactoryCreateDenom)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -832,13 +834,13 @@ func _Msg_CreateDenom_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/osmosis.tokenfactory.v1beta1.Msg/CreateDenom",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).CreateDenom(ctx, req.(*MsgCreateDenom))
+		return srv.(MsgServer).CreateDenom(ctx, req.(*MsgTokenFactoryCreateDenom))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Msg_Mint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgMint)
+	in := new(MsgTokenFactoryMint)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -850,13 +852,13 @@ func _Msg_Mint_Handler(srv interface{}, ctx context.Context, dec func(interface{
 		FullMethod: "/osmosis.tokenfactory.v1beta1.Msg/Mint",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).Mint(ctx, req.(*MsgMint))
+		return srv.(MsgServer).Mint(ctx, req.(*MsgTokenFactoryMint))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Msg_Burn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgBurn)
+	in := new(MsgTokenFactoryBurn)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -868,13 +870,13 @@ func _Msg_Burn_Handler(srv interface{}, ctx context.Context, dec func(interface{
 		FullMethod: "/osmosis.tokenfactory.v1beta1.Msg/Burn",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).Burn(ctx, req.(*MsgBurn))
+		return srv.(MsgServer).Burn(ctx, req.(*MsgTokenFactoryBurn))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Msg_ChangeAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgChangeAdmin)
+	in := new(MsgTokenFactoryChangeAdmin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -886,13 +888,13 @@ func _Msg_ChangeAdmin_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/osmosis.tokenfactory.v1beta1.Msg/ChangeAdmin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).ChangeAdmin(ctx, req.(*MsgChangeAdmin))
+		return srv.(MsgServer).ChangeAdmin(ctx, req.(*MsgTokenFactoryChangeAdmin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Msg_SetDenomMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgSetDenomMetadata)
+	in := new(MsgTokenFactorySetDenomMetadata)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -904,13 +906,13 @@ func _Msg_SetDenomMetadata_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/osmosis.tokenfactory.v1beta1.Msg/SetDenomMetadata",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).SetDenomMetadata(ctx, req.(*MsgSetDenomMetadata))
+		return srv.(MsgServer).SetDenomMetadata(ctx, req.(*MsgTokenFactorySetDenomMetadata))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Msg_ForceTransfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgForceTransfer)
+	in := new(MsgTokenFactoryForceTransfer)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -922,7 +924,7 @@ func _Msg_ForceTransfer_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: "/osmosis.tokenfactory.v1beta1.Msg/ForceTransfer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).ForceTransfer(ctx, req.(*MsgForceTransfer))
+		return srv.(MsgServer).ForceTransfer(ctx, req.(*MsgTokenFactoryForceTransfer))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -960,7 +962,7 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 	Metadata: "osmosis/tokenfactory/v1beta1/tx.proto",
 }
 
-func (m *MsgCreateDenom) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryCreateDenom) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -970,12 +972,12 @@ func (m *MsgCreateDenom) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgCreateDenom) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryCreateDenom) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgCreateDenom) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryCreateDenom) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -997,7 +999,7 @@ func (m *MsgCreateDenom) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgCreateDenomResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryCreateDenomResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1007,12 +1009,12 @@ func (m *MsgCreateDenomResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgCreateDenomResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryCreateDenomResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgCreateDenomResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryCreateDenomResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1027,7 +1029,7 @@ func (m *MsgCreateDenomResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgMint) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryMint) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1037,12 +1039,12 @@ func (m *MsgMint) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgMint) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryMint) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgMint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryMint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1074,7 +1076,7 @@ func (m *MsgMint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgMintResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryMintResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1084,12 +1086,12 @@ func (m *MsgMintResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgMintResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryMintResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgMintResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryMintResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1097,7 +1099,7 @@ func (m *MsgMintResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgBurn) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryBurn) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1107,12 +1109,12 @@ func (m *MsgBurn) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgBurn) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryBurn) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgBurn) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryBurn) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1144,7 +1146,7 @@ func (m *MsgBurn) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgBurnResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryBurnResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1154,12 +1156,12 @@ func (m *MsgBurnResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgBurnResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryBurnResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgBurnResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryBurnResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1167,7 +1169,7 @@ func (m *MsgBurnResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgChangeAdmin) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryChangeAdmin) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1177,12 +1179,12 @@ func (m *MsgChangeAdmin) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgChangeAdmin) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryChangeAdmin) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgChangeAdmin) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryChangeAdmin) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1211,7 +1213,7 @@ func (m *MsgChangeAdmin) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgChangeAdminResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryChangeAdminResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1221,12 +1223,12 @@ func (m *MsgChangeAdminResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgChangeAdminResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryChangeAdminResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgChangeAdminResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryChangeAdminResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1234,7 +1236,7 @@ func (m *MsgChangeAdminResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgSetDenomMetadata) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactorySetDenomMetadata) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1244,12 +1246,12 @@ func (m *MsgSetDenomMetadata) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgSetDenomMetadata) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactorySetDenomMetadata) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgSetDenomMetadata) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactorySetDenomMetadata) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1274,7 +1276,7 @@ func (m *MsgSetDenomMetadata) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgSetDenomMetadataResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactorySetDenomMetadataResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1284,12 +1286,12 @@ func (m *MsgSetDenomMetadataResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgSetDenomMetadataResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactorySetDenomMetadataResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgSetDenomMetadataResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactorySetDenomMetadataResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1297,7 +1299,7 @@ func (m *MsgSetDenomMetadataResponse) MarshalToSizedBuffer(dAtA []byte) (int, er
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgForceTransfer) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryForceTransfer) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1307,12 +1309,12 @@ func (m *MsgForceTransfer) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgForceTransfer) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryForceTransfer) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgForceTransfer) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryForceTransfer) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1351,7 +1353,7 @@ func (m *MsgForceTransfer) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgForceTransferResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgTokenFactoryForceTransferResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1361,12 +1363,12 @@ func (m *MsgForceTransferResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgForceTransferResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryForceTransferResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgForceTransferResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgTokenFactoryForceTransferResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1385,7 +1387,7 @@ func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *MsgCreateDenom) Size() (n int) {
+func (m *MsgTokenFactoryCreateDenom) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1402,7 +1404,7 @@ func (m *MsgCreateDenom) Size() (n int) {
 	return n
 }
 
-func (m *MsgCreateDenomResponse) Size() (n int) {
+func (m *MsgTokenFactoryCreateDenomResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1415,7 +1417,7 @@ func (m *MsgCreateDenomResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgMint) Size() (n int) {
+func (m *MsgTokenFactoryMint) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1434,7 +1436,7 @@ func (m *MsgMint) Size() (n int) {
 	return n
 }
 
-func (m *MsgMintResponse) Size() (n int) {
+func (m *MsgTokenFactoryMintResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1443,7 +1445,7 @@ func (m *MsgMintResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgBurn) Size() (n int) {
+func (m *MsgTokenFactoryBurn) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1462,7 +1464,7 @@ func (m *MsgBurn) Size() (n int) {
 	return n
 }
 
-func (m *MsgBurnResponse) Size() (n int) {
+func (m *MsgTokenFactoryBurnResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1471,7 +1473,7 @@ func (m *MsgBurnResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgChangeAdmin) Size() (n int) {
+func (m *MsgTokenFactoryChangeAdmin) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1492,7 +1494,7 @@ func (m *MsgChangeAdmin) Size() (n int) {
 	return n
 }
 
-func (m *MsgChangeAdminResponse) Size() (n int) {
+func (m *MsgTokenFactoryChangeAdminResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1501,7 +1503,7 @@ func (m *MsgChangeAdminResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgSetDenomMetadata) Size() (n int) {
+func (m *MsgTokenFactorySetDenomMetadata) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1516,7 +1518,7 @@ func (m *MsgSetDenomMetadata) Size() (n int) {
 	return n
 }
 
-func (m *MsgSetDenomMetadataResponse) Size() (n int) {
+func (m *MsgTokenFactorySetDenomMetadataResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1525,7 +1527,7 @@ func (m *MsgSetDenomMetadataResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgForceTransfer) Size() (n int) {
+func (m *MsgTokenFactoryForceTransfer) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1548,7 +1550,7 @@ func (m *MsgForceTransfer) Size() (n int) {
 	return n
 }
 
-func (m *MsgForceTransferResponse) Size() (n int) {
+func (m *MsgTokenFactoryForceTransferResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1563,7 +1565,7 @@ func sovTx(x uint64) (n int) {
 func sozTx(x uint64) (n int) {
 	return sovTx(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *MsgCreateDenom) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryCreateDenom) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1586,10 +1588,10 @@ func (m *MsgCreateDenom) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCreateDenom: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryCreateDenom: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCreateDenom: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryCreateDenom: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1677,7 +1679,7 @@ func (m *MsgCreateDenom) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgCreateDenomResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryCreateDenomResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1700,10 +1702,10 @@ func (m *MsgCreateDenomResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCreateDenomResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryCreateDenomResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCreateDenomResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryCreateDenomResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1759,7 +1761,7 @@ func (m *MsgCreateDenomResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgMint) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryMint) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1782,10 +1784,10 @@ func (m *MsgMint) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgMint: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryMint: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgMint: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryMint: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1906,7 +1908,7 @@ func (m *MsgMint) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgMintResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryMintResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1929,10 +1931,10 @@ func (m *MsgMintResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgMintResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryMintResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgMintResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryMintResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -1956,7 +1958,7 @@ func (m *MsgMintResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgBurn) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryBurn) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1979,10 +1981,10 @@ func (m *MsgBurn) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBurn: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryBurn: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBurn: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryBurn: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2103,7 +2105,7 @@ func (m *MsgBurn) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgBurnResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryBurnResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2126,10 +2128,10 @@ func (m *MsgBurnResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgBurnResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryBurnResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgBurnResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryBurnResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2153,7 +2155,7 @@ func (m *MsgBurnResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgChangeAdmin) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryChangeAdmin) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2176,10 +2178,10 @@ func (m *MsgChangeAdmin) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgChangeAdmin: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryChangeAdmin: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgChangeAdmin: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryChangeAdmin: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2299,7 +2301,7 @@ func (m *MsgChangeAdmin) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgChangeAdminResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryChangeAdminResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2322,10 +2324,10 @@ func (m *MsgChangeAdminResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgChangeAdminResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryChangeAdminResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgChangeAdminResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryChangeAdminResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2349,7 +2351,7 @@ func (m *MsgChangeAdminResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgSetDenomMetadata) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactorySetDenomMetadata) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2372,10 +2374,10 @@ func (m *MsgSetDenomMetadata) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgSetDenomMetadata: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactorySetDenomMetadata: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgSetDenomMetadata: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactorySetDenomMetadata: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2464,7 +2466,7 @@ func (m *MsgSetDenomMetadata) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgSetDenomMetadataResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactorySetDenomMetadataResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2487,10 +2489,10 @@ func (m *MsgSetDenomMetadataResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgSetDenomMetadataResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactorySetDenomMetadataResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgSetDenomMetadataResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactorySetDenomMetadataResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -2514,7 +2516,7 @@ func (m *MsgSetDenomMetadataResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgForceTransfer) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryForceTransfer) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2537,10 +2539,10 @@ func (m *MsgForceTransfer) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgForceTransfer: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryForceTransfer: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgForceTransfer: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryForceTransfer: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2693,7 +2695,7 @@ func (m *MsgForceTransfer) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgForceTransferResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgTokenFactoryForceTransferResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2716,10 +2718,10 @@ func (m *MsgForceTransferResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgForceTransferResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgTokenFactoryForceTransferResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgForceTransferResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgTokenFactoryForceTransferResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"fmt"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -132,16 +132,16 @@ func (suite *KeeperTestSuite) TestCreateDenomMsg() {
 func (suite *KeeperTestSuite) TestChangeAdminDenomMsg() {
 	for _, tc := range []struct {
 		desc                    string
-		msgChangeAdmin          func(denom string) *types.MsgChangeAdmin
+		msgChangeAdmin          func(denom string) *types.MsgTokenFactoryChangeAdmin
 		expectedChangeAdminPass bool
 		expectedAdminIndex      int
-		msgMint                 func(denom string) *types.MsgMint
+		msgMint                 func(denom string) *types.MsgTokenFactoryMint
 		expectedMintPass        bool
 		expectedMessageEvents   int
 	}{
 		{
 			desc: "non-admins can't change the existing admin",
-			msgChangeAdmin: func(denom string) *types.MsgChangeAdmin {
+			msgChangeAdmin: func(denom string) *types.MsgTokenFactoryChangeAdmin {
 				return types.NewMsgChangeAdmin(suite.TestAccs[1].String(), denom, suite.TestAccs[2].String())
 			},
 			expectedChangeAdminPass: false,
@@ -149,13 +149,13 @@ func (suite *KeeperTestSuite) TestChangeAdminDenomMsg() {
 		},
 		{
 			desc: "success change admin",
-			msgChangeAdmin: func(denom string) *types.MsgChangeAdmin {
+			msgChangeAdmin: func(denom string) *types.MsgTokenFactoryChangeAdmin {
 				return types.NewMsgChangeAdmin(suite.TestAccs[0].String(), denom, suite.TestAccs[1].String())
 			},
 			expectedAdminIndex:      1,
 			expectedChangeAdminPass: true,
 			expectedMessageEvents:   1,
-			msgMint: func(denom string) *types.MsgMint {
+			msgMint: func(denom string) *types.MsgTokenFactoryMint {
 				return types.NewMsgMint(suite.TestAccs[1].String(), sdk.NewInt64Coin(denom, 5))
 			},
 			expectedMintPass: true,
@@ -187,7 +187,7 @@ func (suite *KeeperTestSuite) TestSetDenomMetaDataMsg() {
 
 	for _, tc := range []struct {
 		desc                  string
-		msgSetDenomMetadata   types.MsgSetDenomMetadata
+		msgSetDenomMetadata   types.MsgTokenFactorySetDenomMetadata
 		expectedPass          bool
 		expectedMessageEvents int
 	}{

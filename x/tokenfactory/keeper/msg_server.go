@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 )
 
 type msgServer struct {
@@ -20,7 +20,7 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 
 var _ types.MsgServer = msgServer{}
 
-func (server msgServer) CreateDenom(goCtx context.Context, msg *types.MsgCreateDenom) (*types.MsgCreateDenomResponse, error) {
+func (server msgServer) CreateDenom(goCtx context.Context, msg *types.MsgTokenFactoryCreateDenom) (*types.MsgTokenFactoryCreateDenomResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	denom, err := server.Keeper.CreateDenom(ctx, msg.Sender, msg.Subdenom)
@@ -36,12 +36,12 @@ func (server msgServer) CreateDenom(goCtx context.Context, msg *types.MsgCreateD
 		),
 	})
 
-	return &types.MsgCreateDenomResponse{
+	return &types.MsgTokenFactoryCreateDenomResponse{
 		NewTokenDenom: denom,
 	}, nil
 }
 
-func (server msgServer) Mint(goCtx context.Context, msg *types.MsgMint) (*types.MsgMintResponse, error) {
+func (server msgServer) Mint(goCtx context.Context, msg *types.MsgTokenFactoryMint) (*types.MsgTokenFactoryMintResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// pay some extra gas cost to give a better error here.
@@ -76,10 +76,10 @@ func (server msgServer) Mint(goCtx context.Context, msg *types.MsgMint) (*types.
 		),
 	})
 
-	return &types.MsgMintResponse{}, nil
+	return &types.MsgTokenFactoryMintResponse{}, nil
 }
 
-func (server msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBurnResponse, error) {
+func (server msgServer) Burn(goCtx context.Context, msg *types.MsgTokenFactoryBurn) (*types.MsgTokenFactoryBurnResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	authorityMetadata, err := server.Keeper.GetAuthorityMetadata(ctx, msg.Amount.GetDenom())
@@ -108,10 +108,10 @@ func (server msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.
 		),
 	})
 
-	return &types.MsgBurnResponse{}, nil
+	return &types.MsgTokenFactoryBurnResponse{}, nil
 }
 
-func (server msgServer) ForceTransfer(goCtx context.Context, msg *types.MsgForceTransfer) (*types.MsgForceTransferResponse, error) {
+func (server msgServer) ForceTransfer(goCtx context.Context, msg *types.MsgTokenFactoryForceTransfer) (*types.MsgTokenFactoryForceTransferResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	authorityMetadata, err := server.Keeper.GetAuthorityMetadata(ctx, msg.Amount.GetDenom())
@@ -137,10 +137,10 @@ func (server msgServer) ForceTransfer(goCtx context.Context, msg *types.MsgForce
 		),
 	})
 
-	return &types.MsgForceTransferResponse{}, nil
+	return &types.MsgTokenFactoryForceTransferResponse{}, nil
 }
 
-func (server msgServer) ChangeAdmin(goCtx context.Context, msg *types.MsgChangeAdmin) (*types.MsgChangeAdminResponse, error) {
+func (server msgServer) ChangeAdmin(goCtx context.Context, msg *types.MsgTokenFactoryChangeAdmin) (*types.MsgTokenFactoryChangeAdminResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	authorityMetadata, err := server.Keeper.GetAuthorityMetadata(ctx, msg.Denom)
@@ -164,10 +164,10 @@ func (server msgServer) ChangeAdmin(goCtx context.Context, msg *types.MsgChangeA
 		),
 	})
 
-	return &types.MsgChangeAdminResponse{}, nil
+	return &types.MsgTokenFactoryChangeAdminResponse{}, nil
 }
 
-func (server msgServer) SetDenomMetadata(goCtx context.Context, msg *types.MsgSetDenomMetadata) (*types.MsgSetDenomMetadataResponse, error) {
+func (server msgServer) SetDenomMetadata(goCtx context.Context, msg *types.MsgTokenFactorySetDenomMetadata) (*types.MsgTokenFactorySetDenomMetadataResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Defense in depth validation of metadata
@@ -195,5 +195,5 @@ func (server msgServer) SetDenomMetadata(goCtx context.Context, msg *types.MsgSe
 		),
 	})
 
-	return &types.MsgSetDenomMetadataResponse{}, nil
+	return &types.MsgTokenFactorySetDenomMetadataResponse{}, nil
 }

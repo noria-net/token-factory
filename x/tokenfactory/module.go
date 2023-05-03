@@ -12,8 +12,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"math/rand"
 
+	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
@@ -22,15 +22,14 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
-	abci "github.com/tendermint/tendermint/abci/types"
 
 	// "github.com/osmosis-labs/osmosis/v12/simulation/simtypes"
-	simulation "github.com/CosmWasm/token-factory/x/tokenfactory/simulation"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	simulation "github.com/noria-net/token-factory/x/tokenfactory/simulation"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/client/cli"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/keeper"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/client/cli"
+	"github.com/noria-net/token-factory/x/tokenfactory/keeper"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 )
 
 var (
@@ -43,10 +42,12 @@ var (
 // ----------------------------------------------------------------------------
 
 // AppModuleBasic implements the AppModuleBasic interface for the capability module.
-type AppModuleBasic struct{}
+type AppModuleBasic struct {
+	cdc codec.BinaryCodec
+}
 
-func NewAppModuleBasic() AppModuleBasic {
-	return AppModuleBasic{}
+func NewAppModuleBasic(cdc codec.BinaryCodec) AppModuleBasic {
+	return AppModuleBasic{cdc: cdc}
 }
 
 // Name returns the x/tokenfactory module's name.
@@ -111,12 +112,13 @@ type AppModule struct {
 }
 
 func NewAppModule(
+	cdc codec.BinaryCodec,
 	keeper keeper.Keeper,
 	accountKeeper types.AccountKeeper,
 	bankKeeper types.BankKeeper,
 ) AppModule {
 	return AppModule{
-		AppModuleBasic: NewAppModuleBasic(),
+		AppModuleBasic: NewAppModuleBasic(cdc),
 		keeper:         keeper,
 		accountKeeper:  accountKeeper,
 		bankKeeper:     bankKeeper,
@@ -128,24 +130,14 @@ func (am AppModule) Name() string {
 	return am.AppModuleBasic.Name()
 }
 
-// Route returns the x/tokenfactory module's message routing key.
-func (am AppModule) Route() sdk.Route {
-	return sdk.Route{}
-}
-
 // QuerierRoute returns the x/tokenfactory module's query routing key.
 func (AppModule) QuerierRoute() string { return types.QuerierRoute }
-
-// LegacyQuerierHandler returns the x/tokenfactory module's Querier.
-func (am AppModule) LegacyQuerierHandler(_ *codec.LegacyAmino) sdk.Querier {
-	return nil
-}
 
 // RegisterServices registers a GRPC query service to respond to the
 // module-specific GRPC queries.
 func (am AppModule) RegisterServices(cfg module.Configurator) {
-	types.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
 	types.RegisterQueryServer(cfg.QueryServer(), am.keeper)
+	types.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
 }
 
 // RegisterInvariants registers the x/tokenfactory module's invariants.
@@ -213,11 +205,6 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 // GenerateGenesisState creates a randomized GenState of the bank module.
 func (am AppModule) ProposalContents(_ module.SimulationState) []simtypes.WeightedProposalContent {
 	return nil
-}
-
-// RandomizedParams creates randomized bank param changes for the simulator.
-func (am AppModule) RandomizedParams(r *rand.Rand) []simtypes.ParamChange {
-	return simulation.ParamChanges(r)
 }
 
 // RegisterStoreDecoder registers a decoder for supply module's types

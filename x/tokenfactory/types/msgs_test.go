@@ -7,60 +7,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/testhelpers"
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 
+	"github.com/cometbft/cometbft/crypto/ed25519"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/tendermint/tendermint/crypto/ed25519"
 )
-
-// // Test authz serialize and de-serializes for tokenfactory msg.
-func TestAuthzMsg(t *testing.T) {
-	t.Skip("TODO: figure out how to register authz interfaces for tests")
-	pk1 := ed25519.GenPrivKey().PubKey()
-	addr1 := sdk.AccAddress(pk1.Address()).String()
-	coin := sdk.NewCoin("denom", sdk.NewInt(1))
-
-	testCases := []struct {
-		name string
-		msg  sdk.Msg
-	}{
-		{
-			name: "MsgCreateDenom",
-			msg: &types.MsgCreateDenom{
-				Sender:   addr1,
-				Subdenom: "valoper1xyz",
-			},
-		},
-		{
-			name: "MsgBurn",
-			msg: &types.MsgBurn{
-				Sender: addr1,
-				Amount: coin,
-			},
-		},
-		{
-			name: "MsgMint",
-			msg: &types.MsgMint{
-				Sender: addr1,
-				Amount: coin,
-			},
-		},
-		{
-			name: "MsgChangeAdmin",
-			msg: &types.MsgChangeAdmin{
-				Sender:   addr1,
-				Denom:    "denom",
-				NewAdmin: "osmo1q8tq5qhrhw6t970egemuuwywhlhpnmdmts6xnu",
-			},
-		},
-	}
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			testhelpers.TestMessageAuthzSerialization(t, tc.msg)
-		})
-	}
-}
 
 // TestMsgCreateDenom tests if valid/invalid create denom messages are properly validated/invalidated
 func TestMsgCreateDenom(t *testing.T) {
@@ -69,7 +20,7 @@ func TestMsgCreateDenom(t *testing.T) {
 	addr1 := sdk.AccAddress(pk1.Address())
 
 	// make a proper createDenom message
-	createMsg := func(after func(msg types.MsgCreateDenom) types.MsgCreateDenom) types.MsgCreateDenom {
+	createMsg := func(after func(msg types.MsgTokenFactoryCreateDenom) types.MsgTokenFactoryCreateDenom) types.MsgTokenFactoryCreateDenom {
 		properMsg := *types.NewMsgCreateDenom(
 			addr1.String(),
 			"bitcoin",
@@ -79,7 +30,7 @@ func TestMsgCreateDenom(t *testing.T) {
 	}
 
 	// validate createDenom message was created as intended
-	msg := createMsg(func(msg types.MsgCreateDenom) types.MsgCreateDenom {
+	msg := createMsg(func(msg types.MsgTokenFactoryCreateDenom) types.MsgTokenFactoryCreateDenom {
 		return msg
 	})
 	require.Equal(t, msg.Route(), types.RouterKey)
@@ -90,19 +41,19 @@ func TestMsgCreateDenom(t *testing.T) {
 
 	tests := []struct {
 		name       string
-		msg        types.MsgCreateDenom
+		msg        types.MsgTokenFactoryCreateDenom
 		expectPass bool
 	}{
 		{
 			name: "proper msg",
-			msg: createMsg(func(msg types.MsgCreateDenom) types.MsgCreateDenom {
+			msg: createMsg(func(msg types.MsgTokenFactoryCreateDenom) types.MsgTokenFactoryCreateDenom {
 				return msg
 			}),
 			expectPass: true,
 		},
 		{
 			name: "empty sender",
-			msg: createMsg(func(msg types.MsgCreateDenom) types.MsgCreateDenom {
+			msg: createMsg(func(msg types.MsgTokenFactoryCreateDenom) types.MsgTokenFactoryCreateDenom {
 				msg.Sender = ""
 				return msg
 			}),
@@ -110,7 +61,7 @@ func TestMsgCreateDenom(t *testing.T) {
 		},
 		{
 			name: "invalid subdenom",
-			msg: createMsg(func(msg types.MsgCreateDenom) types.MsgCreateDenom {
+			msg: createMsg(func(msg types.MsgTokenFactoryCreateDenom) types.MsgTokenFactoryCreateDenom {
 				msg.Subdenom = "thissubdenomismuchtoolongasdkfjaasdfdsafsdlkfnmlksadmflksmdlfmlsakmfdsafasdfasdf"
 				return msg
 			}),
@@ -134,7 +85,7 @@ func TestMsgMint(t *testing.T) {
 	addr1 := sdk.AccAddress(pk1.Address())
 
 	// make a proper mint message
-	createMsg := func(after func(msg types.MsgMint) types.MsgMint) types.MsgMint {
+	createMsg := func(after func(msg types.MsgTokenFactoryMint) types.MsgTokenFactoryMint) types.MsgTokenFactoryMint {
 		properMsg := *types.NewMsgMint(
 			addr1.String(),
 			sdk.NewCoin("bitcoin", sdk.NewInt(500000000)),
@@ -144,7 +95,7 @@ func TestMsgMint(t *testing.T) {
 	}
 
 	// validate mint message was created as intended
-	msg := createMsg(func(msg types.MsgMint) types.MsgMint {
+	msg := createMsg(func(msg types.MsgTokenFactoryMint) types.MsgTokenFactoryMint {
 		return msg
 	})
 	require.Equal(t, msg.Route(), types.RouterKey)
@@ -155,19 +106,19 @@ func TestMsgMint(t *testing.T) {
 
 	tests := []struct {
 		name       string
-		msg        types.MsgMint
+		msg        types.MsgTokenFactoryMint
 		expectPass bool
 	}{
 		{
 			name: "proper msg",
-			msg: createMsg(func(msg types.MsgMint) types.MsgMint {
+			msg: createMsg(func(msg types.MsgTokenFactoryMint) types.MsgTokenFactoryMint {
 				return msg
 			}),
 			expectPass: true,
 		},
 		{
 			name: "empty sender",
-			msg: createMsg(func(msg types.MsgMint) types.MsgMint {
+			msg: createMsg(func(msg types.MsgTokenFactoryMint) types.MsgTokenFactoryMint {
 				msg.Sender = ""
 				return msg
 			}),
@@ -175,7 +126,7 @@ func TestMsgMint(t *testing.T) {
 		},
 		{
 			name: "zero amount",
-			msg: createMsg(func(msg types.MsgMint) types.MsgMint {
+			msg: createMsg(func(msg types.MsgTokenFactoryMint) types.MsgTokenFactoryMint {
 				msg.Amount = sdk.NewCoin("bitcoin", sdk.ZeroInt())
 				return msg
 			}),
@@ -183,7 +134,7 @@ func TestMsgMint(t *testing.T) {
 		},
 		{
 			name: "negative amount",
-			msg: createMsg(func(msg types.MsgMint) types.MsgMint {
+			msg: createMsg(func(msg types.MsgTokenFactoryMint) types.MsgTokenFactoryMint {
 				msg.Amount.Amount = sdk.NewInt(-10000000)
 				return msg
 			}),
@@ -221,12 +172,12 @@ func TestMsgBurn(t *testing.T) {
 
 	tests := []struct {
 		name       string
-		msg        func() *types.MsgBurn
+		msg        func() *types.MsgTokenFactoryBurn
 		expectPass bool
 	}{
 		{
 			name: "proper msg",
-			msg: func() *types.MsgBurn {
+			msg: func() *types.MsgTokenFactoryBurn {
 				msg := baseMsg
 				return msg
 			},
@@ -234,7 +185,7 @@ func TestMsgBurn(t *testing.T) {
 		},
 		{
 			name: "empty sender",
-			msg: func() *types.MsgBurn {
+			msg: func() *types.MsgTokenFactoryBurn {
 				msg := baseMsg
 				msg.Sender = ""
 				return msg
@@ -243,7 +194,7 @@ func TestMsgBurn(t *testing.T) {
 		},
 		{
 			name: "zero amount",
-			msg: func() *types.MsgBurn {
+			msg: func() *types.MsgTokenFactoryBurn {
 				msg := baseMsg
 				msg.Amount.Amount = sdk.ZeroInt()
 				return msg
@@ -252,7 +203,7 @@ func TestMsgBurn(t *testing.T) {
 		},
 		{
 			name: "negative amount",
-			msg: func() *types.MsgBurn {
+			msg: func() *types.MsgTokenFactoryBurn {
 				msg := baseMsg
 				msg.Amount.Amount = sdk.NewInt(-10000000)
 				return msg
@@ -295,12 +246,12 @@ func TestMsgChangeAdmin(t *testing.T) {
 
 	tests := []struct {
 		name       string
-		msg        func() *types.MsgChangeAdmin
+		msg        func() *types.MsgTokenFactoryChangeAdmin
 		expectPass bool
 	}{
 		{
 			name: "proper msg",
-			msg: func() *types.MsgChangeAdmin {
+			msg: func() *types.MsgTokenFactoryChangeAdmin {
 				msg := baseMsg
 				return msg
 			},
@@ -308,7 +259,7 @@ func TestMsgChangeAdmin(t *testing.T) {
 		},
 		{
 			name: "empty sender",
-			msg: func() *types.MsgChangeAdmin {
+			msg: func() *types.MsgTokenFactoryChangeAdmin {
 				msg := baseMsg
 				msg.Sender = ""
 				return msg
@@ -317,7 +268,7 @@ func TestMsgChangeAdmin(t *testing.T) {
 		},
 		{
 			name: "empty newAdmin",
-			msg: func() *types.MsgChangeAdmin {
+			msg: func() *types.MsgTokenFactoryChangeAdmin {
 				msg := baseMsg
 				msg.NewAdmin = ""
 				return msg
@@ -326,7 +277,7 @@ func TestMsgChangeAdmin(t *testing.T) {
 		},
 		{
 			name: "invalid denom",
-			msg: func() *types.MsgChangeAdmin {
+			msg: func() *types.MsgTokenFactoryChangeAdmin {
 				msg := baseMsg
 				msg.Denom = "bitcoin"
 				return msg
@@ -400,12 +351,12 @@ func TestMsgSetDenomMetadata(t *testing.T) {
 
 	tests := []struct {
 		name       string
-		msg        func() *types.MsgSetDenomMetadata
+		msg        func() *types.MsgTokenFactorySetDenomMetadata
 		expectPass bool
 	}{
 		{
 			name: "proper msg",
-			msg: func() *types.MsgSetDenomMetadata {
+			msg: func() *types.MsgTokenFactorySetDenomMetadata {
 				msg := baseMsg
 				return msg
 			},
@@ -413,7 +364,7 @@ func TestMsgSetDenomMetadata(t *testing.T) {
 		},
 		{
 			name: "empty sender",
-			msg: func() *types.MsgSetDenomMetadata {
+			msg: func() *types.MsgTokenFactorySetDenomMetadata {
 				msg := baseMsg
 				msg.Sender = ""
 				return msg
@@ -422,7 +373,7 @@ func TestMsgSetDenomMetadata(t *testing.T) {
 		},
 		{
 			name: "invalid metadata",
-			msg: func() *types.MsgSetDenomMetadata {
+			msg: func() *types.MsgTokenFactorySetDenomMetadata {
 				msg := baseMsg
 				msg.Metadata.Name = ""
 				return msg
@@ -432,7 +383,7 @@ func TestMsgSetDenomMetadata(t *testing.T) {
 		},
 		{
 			name: "invalid base",
-			msg: func() *types.MsgSetDenomMetadata {
+			msg: func() *types.MsgTokenFactorySetDenomMetadata {
 				msg := baseMsg
 				msg.Metadata = invalidDenomMetadata
 				return msg

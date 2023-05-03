@@ -7,25 +7,26 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/tendermint/crypto"
-	"github.com/tendermint/tendermint/crypto/ed25519"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	"github.com/cometbft/cometbft/crypto"
+	"github.com/cometbft/cometbft/crypto/ed25519"
+	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 
-	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/CosmWasm/token-factory/app"
 	"github.com/CosmWasm/wasmd/x/wasm/keeper"
+	"github.com/noria-net/token-factory/app"
+
+	banktestutil "github.com/cosmos/cosmos-sdk/x/bank/testutil"
 )
 
 func CreateTestInput() (*app.TokenApp, sdk.Context) {
-	osmosis := app.Setup(false)
+	osmosis := app.Setup(&testing.T{})
 	ctx := osmosis.BaseApp.NewContext(false, tmproto.Header{Height: 1, ChainID: "osmosis-1", Time: time.Now().UTC()})
 	return osmosis, ctx
 }
 
 func FundAccount(t *testing.T, ctx sdk.Context, osmosis *app.TokenApp, acct sdk.AccAddress) {
-	err := simapp.FundAccount(osmosis.BankKeeper, ctx, acct, sdk.NewCoins(
+	err := banktestutil.FundAccount(osmosis.BankKeeper, ctx, acct, sdk.NewCoins(
 		sdk.NewCoin("uosmo", sdk.NewInt(10000000000)),
 	))
 	require.NoError(t, err)
@@ -70,7 +71,7 @@ func instantiateReflectContract(t *testing.T, ctx sdk.Context, tokenz *app.Token
 }
 
 func fundAccount(t *testing.T, ctx sdk.Context, tokenz *app.TokenApp, addr sdk.AccAddress, coins sdk.Coins) {
-	err := simapp.FundAccount(
+	err := banktestutil.FundAccount(
 		tokenz.BankKeeper,
 		ctx,
 		addr,

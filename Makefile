@@ -12,7 +12,7 @@ SIMAPP = ./app
 DOCKER := $(shell which docker)
 BUF_IMAGE=bufbuild/buf@sha256:3cb1f8a4b48bd5ad8f09168f10f607ddc318af202f5c057d52a45216793d85e5 #v1.4.0
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(BUF_IMAGE)
-HTTPS_GIT := https://github.com/CosmWasm/token-factory.git
+HTTPS_GIT := https://github.com/noria-net/token-factory.git
 
 export GO111MODULE = on
 
@@ -55,11 +55,10 @@ build_tags_comma_sep := $(subst $(empty),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=wasm \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=token \
 		  -X github.com/cosmos/cosmos-sdk/version.AppName=toked \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
-		  -X github.com/CosmWasm/token-factory/app.Bech32Prefix=wasm \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
 
 ifeq ($(WITH_CLEVELDB),yes)

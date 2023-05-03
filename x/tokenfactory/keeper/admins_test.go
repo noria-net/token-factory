@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/CosmWasm/token-factory/x/tokenfactory/types"
+	"github.com/noria-net/token-factory/x/tokenfactory/types"
 )
 
 func (suite *KeeperTestSuite) TestAdminMsgs() {
@@ -92,7 +92,7 @@ func (suite *KeeperTestSuite) TestMintDenom() {
 
 	for _, tc := range []struct {
 		desc       string
-		mintMsg    types.MsgMint
+		mintMsg    types.MsgTokenFactoryMint
 		expectPass bool
 	}{
 		{
@@ -160,7 +160,7 @@ func (suite *KeeperTestSuite) TestBurnDenom() {
 
 	for _, tc := range []struct {
 		desc       string
-		burnMsg    types.MsgBurn
+		burnMsg    types.MsgTokenFactoryBurn
 		expectPass bool
 	}{
 		{
@@ -236,7 +236,7 @@ func (suite *KeeperTestSuite) TestForceTransferDenom() {
 
 	for _, tc := range []struct {
 		desc             string
-		forceTransferMsg types.MsgForceTransfer
+		forceTransferMsg types.MsgTokenFactoryForceTransfer
 		expectPass       bool
 	}{
 		{
@@ -307,27 +307,27 @@ func (suite *KeeperTestSuite) TestForceTransferDenom() {
 func (suite *KeeperTestSuite) TestChangeAdminDenom() {
 	for _, tc := range []struct {
 		desc                    string
-		msgChangeAdmin          func(denom string) *types.MsgChangeAdmin
+		msgChangeAdmin          func(denom string) *types.MsgTokenFactoryChangeAdmin
 		expectedChangeAdminPass bool
 		expectedAdminIndex      int
-		msgMint                 func(denom string) *types.MsgMint
+		msgMint                 func(denom string) *types.MsgTokenFactoryMint
 		expectedMintPass        bool
 	}{
 		{
 			desc: "creator admin can't mint after setting to '' ",
-			msgChangeAdmin: func(denom string) *types.MsgChangeAdmin {
+			msgChangeAdmin: func(denom string) *types.MsgTokenFactoryChangeAdmin {
 				return types.NewMsgChangeAdmin(suite.TestAccs[0].String(), denom, "")
 			},
 			expectedChangeAdminPass: true,
 			expectedAdminIndex:      -1,
-			msgMint: func(denom string) *types.MsgMint {
+			msgMint: func(denom string) *types.MsgTokenFactoryMint {
 				return types.NewMsgMint(suite.TestAccs[0].String(), sdk.NewInt64Coin(denom, 5))
 			},
 			expectedMintPass: false,
 		},
 		{
 			desc: "non-admins can't change the existing admin",
-			msgChangeAdmin: func(denom string) *types.MsgChangeAdmin {
+			msgChangeAdmin: func(denom string) *types.MsgTokenFactoryChangeAdmin {
 				return types.NewMsgChangeAdmin(suite.TestAccs[1].String(), denom, suite.TestAccs[2].String())
 			},
 			expectedChangeAdminPass: false,
@@ -335,12 +335,12 @@ func (suite *KeeperTestSuite) TestChangeAdminDenom() {
 		},
 		{
 			desc: "success change admin",
-			msgChangeAdmin: func(denom string) *types.MsgChangeAdmin {
+			msgChangeAdmin: func(denom string) *types.MsgTokenFactoryChangeAdmin {
 				return types.NewMsgChangeAdmin(suite.TestAccs[0].String(), denom, suite.TestAccs[1].String())
 			},
 			expectedAdminIndex:      1,
 			expectedChangeAdminPass: true,
-			msgMint: func(denom string) *types.MsgMint {
+			msgMint: func(denom string) *types.MsgTokenFactoryMint {
 				return types.NewMsgMint(suite.TestAccs[1].String(), sdk.NewInt64Coin(denom, 5))
 			},
 			expectedMintPass: true,
@@ -399,7 +399,7 @@ func (suite *KeeperTestSuite) TestSetDenomMetaData() {
 
 	for _, tc := range []struct {
 		desc                string
-		msgSetDenomMetadata types.MsgSetDenomMetadata
+		msgSetDenomMetadata types.MsgTokenFactorySetDenomMetadata
 		expectedPass        bool
 	}{
 		{
