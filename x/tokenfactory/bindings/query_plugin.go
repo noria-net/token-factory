@@ -4,101 +4,122 @@ import (
 	"encoding/json"
 	"fmt"
 
+	sdkerrors "cosmossdk.io/errors"
 	wasmvmtypes "github.com/CosmWasm/wasmvm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 
+	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
 	bindingstypes "github.com/noria-net/token-factory/x/tokenfactory/bindings/types"
+	tokenfactorykeeper "github.com/noria-net/token-factory/x/tokenfactory/keeper"
 )
 
+type CustomQueryHandler struct {
+	wrapped      wasmkeeper.WasmVMQueryHandler
+	tokenfactory *tokenfactorykeeper.Keeper
+	bankkeeper   *bankkeeper.BaseKeeper
+}
+
+func CustomQueryDecorator(tokenFactory *tokenfactorykeeper.Keeper, bankkeeper *bankkeeper.BaseKeeper) func(wasmkeeper.WasmVMQueryHandler) wasmkeeper.WasmVMQueryHandler {
+	return func(old wasmkeeper.WasmVMQueryHandler) wasmkeeper.WasmVMQueryHandler {
+		return &CustomQueryHandler{
+			wrapped:      old,
+			tokenfactory: tokenFactory,
+			bankkeeper:   bankkeeper,
+		}
+	}
+}
+
 // CustomQuerier dispatches custom CosmWasm bindings queries.
-func CustomQuerier(qp *QueryPlugin) func(ctx sdk.Context, request json.RawMessage) ([]byte, error) {
-	return func(ctx sdk.Context, request json.RawMessage) ([]byte, error) {
-		var contractQuery bindingstypes.TokenFactoryQuery
-		if err := json.Unmarshal(request, &contractQuery); err != nil {
-			return nil, sdkerrors.Wrap(err, "osmosis query")
+func (m *CustomQueryHandler) HandleQuery(ctx sdk.Context, caller sdk.AccAddress, request wasmvmtypes.QueryRequest) ([]byte, error) {
+	if request.Custom == nil {
+		return m.wrapped.HandleQuery(ctx, caller, request)
+	}
+	customQuery := request.Custom
+
+	var tokenQuery bindingstypes.TokenFactoryQuery
+	if err := json.Unmarshal(customQuery, &tokenQuery); err != nil {
+		return nil, sdkerrors.Wrap(err, "requires 'token' field")
+	}
+	if tokenQuery.Token == nil {
+		return m.wrapped.HandleQuery(ctx, caller, request)
+	}
+
+	switch {
+	case tokenQuery.Token.FullDenom != nil:
+		creator := tokenQuery.Token.FullDenom.CreatorAddr
+		subdenom := tokenQuery.Token.FullDenom.Subdenom
+
+		fullDenom, err := GetFullDenom(creator, subdenom)
+		if err != nil {
+			return nil, sdkerrors.Wrap(err, "osmo full denom query")
 		}
-		if contractQuery.Token == nil {
-			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, "nil token field")
+
+		res := bindingstypes.FullDenomResponse{
+			Denom: fullDenom,
 		}
-		tokenQuery := contractQuery.Token
 
-		switch {
-		case tokenQuery.FullDenom != nil:
-			creator := tokenQuery.FullDenom.CreatorAddr
-			subdenom := tokenQuery.FullDenom.Subdenom
-
-			fullDenom, err := GetFullDenom(creator, subdenom)
-			if err != nil {
-				return nil, sdkerrors.Wrap(err, "osmo full denom query")
-			}
-
-			res := bindingstypes.FullDenomResponse{
-				Denom: fullDenom,
-			}
-
-			bz, err := json.Marshal(res)
-			if err != nil {
-				return nil, sdkerrors.Wrap(err, "failed to marshal FullDenomResponse")
-			}
-
-			return bz, nil
-
-		case tokenQuery.Admin != nil:
-			res, err := qp.GetDenomAdmin(ctx, tokenQuery.Admin.Denom)
-			if err != nil {
-				return nil, err
-			}
-
-			bz, err := json.Marshal(res)
-			if err != nil {
-				return nil, fmt.Errorf("failed to JSON marshal AdminResponse: %w", err)
-			}
-
-			return bz, nil
-
-		case tokenQuery.Metadata != nil:
-			res, err := qp.GetMetadata(ctx, tokenQuery.Metadata.Denom)
-			if err != nil {
-				return nil, err
-			}
-
-			bz, err := json.Marshal(res)
-			if err != nil {
-				return nil, fmt.Errorf("failed to JSON marshal MetadataResponse: %w", err)
-			}
-
-			return bz, nil
-
-		case tokenQuery.DenomsByCreator != nil:
-			res, err := qp.GetDenomsByCreator(ctx, tokenQuery.DenomsByCreator.Creator)
-			if err != nil {
-				return nil, err
-			}
-
-			bz, err := json.Marshal(res)
-			if err != nil {
-				return nil, fmt.Errorf("failed to JSON marshal DenomsByCreatorResponse: %w", err)
-			}
-
-			return bz, nil
-
-		case tokenQuery.Params != nil:
-			res, err := qp.GetParams(ctx)
-			if err != nil {
-				return nil, err
-			}
-
-			bz, err := json.Marshal(res)
-			if err != nil {
-				return nil, fmt.Errorf("failed to JSON marshal ParamsResponse: %w", err)
-			}
-
-			return bz, nil
-
-		default:
-			return nil, wasmvmtypes.UnsupportedRequest{Kind: "unknown token query variant"}
+		bz, err := json.Marshal(res)
+		if err != nil {
+			return nil, sdkerrors.Wrap(err, "failed to marshal FullDenomResponse")
 		}
+
+		return bz, nil
+
+	case tokenQuery.Token.Admin != nil:
+		res, err := m.GetDenomAdmin(ctx, tokenQuery.Token.Admin.Denom)
+		if err != nil {
+			return nil, err
+		}
+
+		bz, err := json.Marshal(res)
+		if err != nil {
+			return nil, fmt.Errorf("failed to JSON marshal AdminResponse: %w", err)
+		}
+
+		return bz, nil
+
+	case tokenQuery.Token.Metadata != nil:
+		res, err := m.GetMetadata(ctx, tokenQuery.Token.Metadata.Denom)
+		if err != nil {
+			return nil, err
+		}
+
+		bz, err := json.Marshal(res)
+		if err != nil {
+			return nil, fmt.Errorf("failed to JSON marshal MetadataResponse: %w", err)
+		}
+
+		return bz, nil
+
+	case tokenQuery.Token.DenomsByCreator != nil:
+		res, err := m.GetDenomsByCreator(ctx, tokenQuery.Token.DenomsByCreator.Creator)
+		if err != nil {
+			return nil, err
+		}
+
+		bz, err := json.Marshal(res)
+		if err != nil {
+			return nil, fmt.Errorf("failed to JSON marshal DenomsByCreatorResponse: %w", err)
+		}
+
+		return bz, nil
+
+	case tokenQuery.Token.Params != nil:
+		res, err := m.GetParams(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		bz, err := json.Marshal(res)
+		if err != nil {
+			return nil, fmt.Errorf("failed to JSON marshal ParamsResponse: %w", err)
+		}
+
+		return bz, nil
+
+	default:
+		return nil, wasmvmtypes.UnsupportedRequest{Kind: "unknown token query variant"}
 	}
 }
 

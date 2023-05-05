@@ -37,21 +37,18 @@
 
 set -eo pipefail
 
-echo "Generating gogo proto code"
+echo "Generating proto code"
 cd proto
 buf mod update
 cd ..
 buf generate
 
-echo -e "Done generating proto files"
 
 # move proto files to the right places
 find ./github.com -name "*.go" | xargs sed -i 's/_ "github.com\/cosmos\/gogoproto\/gogoproto"/_ "github.com\/gogo\/protobuf\/gogoproto"/g'
 find ./github.com -name "*.go" | xargs sed -i 's/proto "github.com\/gogo\/protobuf\/proto"/proto "github.com\/cosmos\/gogoproto\/proto"/g'
 find ./github.com -name "*.go" | xargs sed -i 's/grpc1 "github.com\/gogo\/protobuf\/grpc"/grpc1 "github.com\/cosmos\/gogoproto\/grpc"/g'
-cp -r ./github.com/noria-net/token-factory/x/* x/
-rm -rf ./github.com
 
-go mod tidy 
+echo -e "Done generating proto files"
 
 

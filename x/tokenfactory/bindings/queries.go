@@ -24,22 +24,22 @@ func NewQueryPlugin(b *bankkeeper.BaseKeeper, tfk *tokenfactorykeeper.Keeper) *Q
 }
 
 // GetDenomAdmin is a query to get denom admin.
-func (qp QueryPlugin) GetDenomAdmin(ctx sdk.Context, denom string) (*bindingstypes.AdminResponse, error) {
-	metadata, err := qp.tokenFactoryKeeper.GetAuthorityMetadata(ctx, denom)
+func (qp CustomQueryHandler) GetDenomAdmin(ctx sdk.Context, denom string) (*bindingstypes.AdminResponse, error) {
+	metadata, err := qp.tokenfactory.GetAuthorityMetadata(ctx, denom)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get admin for denom: %s", denom)
 	}
 	return &bindingstypes.AdminResponse{Admin: metadata.Admin}, nil
 }
 
-func (qp QueryPlugin) GetDenomsByCreator(ctx sdk.Context, creator string) (*bindingstypes.DenomsByCreatorResponse, error) {
+func (qp CustomQueryHandler) GetDenomsByCreator(ctx sdk.Context, creator string) (*bindingstypes.DenomsByCreatorResponse, error) {
 	// TODO: validate creator address
-	denoms := qp.tokenFactoryKeeper.GetDenomsFromCreator(ctx, creator)
+	denoms := qp.tokenfactory.GetDenomsFromCreator(ctx, creator)
 	return &bindingstypes.DenomsByCreatorResponse{Denoms: denoms}, nil
 }
 
-func (qp QueryPlugin) GetMetadata(ctx sdk.Context, denom string) (*bindingstypes.MetadataResponse, error) {
-	metadata, found := qp.bankKeeper.GetDenomMetaData(ctx, denom)
+func (qp CustomQueryHandler) GetMetadata(ctx sdk.Context, denom string) (*bindingstypes.MetadataResponse, error) {
+	metadata, found := qp.bankkeeper.GetDenomMetaData(ctx, denom)
 	var parsed *bindingstypes.Metadata
 	if found {
 		parsed = SdkMetadataToWasm(metadata)
@@ -47,8 +47,8 @@ func (qp QueryPlugin) GetMetadata(ctx sdk.Context, denom string) (*bindingstypes
 	return &bindingstypes.MetadataResponse{Metadata: parsed}, nil
 }
 
-func (qp QueryPlugin) GetParams(ctx sdk.Context) (*bindingstypes.ParamsResponse, error) {
-	params := qp.tokenFactoryKeeper.GetParams(ctx)
+func (qp CustomQueryHandler) GetParams(ctx sdk.Context) (*bindingstypes.ParamsResponse, error) {
+	params := qp.tokenfactory.GetParams(ctx)
 	return &bindingstypes.ParamsResponse{
 		Params: bindingstypes.Params{
 			DenomCreationFee: ConvertSdkCoinsToWasmCoins(params.DenomCreationFee),

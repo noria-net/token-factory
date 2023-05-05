@@ -3,10 +3,10 @@ package bindings
 import (
 	"encoding/json"
 
+	sdkerrors "cosmossdk.io/errors"
 	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
 	wasmvmtypes "github.com/CosmWasm/wasmvm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
@@ -44,7 +44,7 @@ func (m *CustomMessenger) DispatchMsg(ctx sdk.Context, contractAddr sdk.AccAddre
 			return nil, nil, sdkerrors.Wrap(err, "token factory msg")
 		}
 		if contractMsg.Token == nil {
-			return nil, nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, "nil token field")
+			return m.wrapped.DispatchMsg(ctx, contractAddr, contractIBCPortID, msg)
 		}
 		tokenMsg := contractMsg.Token
 

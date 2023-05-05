@@ -13,11 +13,9 @@ func RegisterCustomPlugins(
 	bank *bankkeeper.BaseKeeper,
 	tokenFactory *tokenfactorykeeper.Keeper,
 ) []wasmkeeper.Option {
-	wasmQueryPlugin := NewQueryPlugin(bank, tokenFactory)
 
-	queryPluginOpt := wasmkeeper.WithQueryPlugins(&wasmkeeper.QueryPlugins{
-		Custom: CustomQuerier(wasmQueryPlugin),
-	})
+	queryPluginOpt := wasmkeeper.WithQueryHandlerDecorator(CustomQueryDecorator(tokenFactory, bank))
+
 	messengerDecoratorOpt := wasmkeeper.WithMessageHandlerDecorator(
 		CustomMessageDecorator(bank, tokenFactory),
 	)
