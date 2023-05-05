@@ -9,7 +9,8 @@ import (
 
 // Parameter store keys.
 var (
-	KeyDenomCreationFee = []byte("DenomCreationFee")
+	KeyDenomCreationFee     = []byte("DenomCreationFee")
+	DefaultCreationFeeDenom = sdk.DefaultBondDenom
 )
 
 // ParamTable for gamm module.
@@ -26,9 +27,7 @@ func NewParams(denomCreationFee sdk.Coins) Params {
 // default gamm module parameters.
 func DefaultParams() Params {
 	return Params{
-		// this was from osmosis
-		// DenomCreationFee: sdk.NewCoins(sdk.NewInt64Coin(appparams.BaseCoinUnit, 10_000_000)), // 10 OSMO
-		DenomCreationFee: sdk.NewCoins(sdk.NewInt64Coin(sdk.DefaultBondDenom, 10_000_000)), // 10 OSMO
+		DenomCreationFee: sdk.NewCoins(sdk.NewInt64Coin(DefaultCreationFeeDenom, 10_000_000)),
 	}
 }
 
