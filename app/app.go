@@ -238,6 +238,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		nft.ModuleName:                 nil,
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		tokenfactorytypes.ModuleName:   {authtypes.Minter, authtypes.Burner},
 		ibcfeetypes.ModuleName:         nil,
 		icatypes.ModuleName:            nil,
 		wasm.ModuleName:                {authtypes.Burner},
